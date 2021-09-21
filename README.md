@@ -1,19 +1,3 @@
 # dtt-real-estate-website
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+This website is build as part of the application process for the front-end developer traineeship at DTT.
