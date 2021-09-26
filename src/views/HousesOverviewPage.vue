@@ -15,11 +15,17 @@
       </div>
 
     <!-- Houses list / todo: add v-for and data handling -->
-    <div> 
-      <HouseOverviewTile/>
-      <HouseOverviewTile/>
-      <HouseOverviewTile/>
-      <HouseOverviewTile/>
+    <div  > 
+      <HouseOverviewTile 
+        v-for="house in allHouses" :key="house.id"
+        :adress = 'house.adres'
+        :price = 'house.price'
+        :postalCode = 'house.location.zip '
+        :city = 'house.location.city'
+        :numberOfBedrooms = 'house.rooms.bedrooms'
+        :numberOfBathrooms = 'house.rooms.bathrooms'
+        :surfaceArea = 'house.size' 
+        :image = 'house.image'/>
     </div>
   </div>
 </template>
@@ -28,39 +34,51 @@
 
 import HouseOverviewTile from '../components/HousesOverview/HouseOverviewTile.vue'
 import SearchBar from '../components/HousesOverview/SearchBar.vue'
-
+import {mapGetters, mapActions} from 'vuex';
 
 export default {
   
-
-  
+  components: {
+    HouseOverviewTile,
+    SearchBar
+  },
 
   data(){
     return{
     btnLeftActive: true,
     btnRightActive: false
     }},
+  
 
-  components: {
-    HouseOverviewTile,
-    SearchBar
-  },
+  computed: mapGetters(['allHouses']),
+    
+
   methods: {
+    ...mapActions(['fetchHouses', 'sortingToPrice', 'sortingToSize']),
+    
     handleBtnToggle(e){
       console.log(e.target.id)
       if(e.target.id === 'btnright'){
         this.btnLeftActive = false;
         this.btnRightActive = true;
-        this.$store.state.btnLeftActive = false;
-        this.$store.state.btnRightActive = true;
+        this.sortingToSize();
       }
       if(e.target.id === 'btnleft'){
         this.btnLeftActive = true;
         this.btnRightActive = false;
-        this.$store.state.btnLeftActive = true;
-        this.$store.state.btnRightActive = false;
+        this.sortingToPrice();
       }}
-    }
+    },
+  
+  
+  
+
+  created(){
+    this.fetchHouses();
+  
+  },
+
+  
   }
 </script>
 

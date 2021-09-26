@@ -1,3 +1,6 @@
+API Key : Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV
+
+
 Styling:
     - search icon search input bar
     - upload picture box: can it be pure css or does it require an image? (border-spacing)

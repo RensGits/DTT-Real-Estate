@@ -10,25 +10,25 @@
       <div class = 'gridRow3'>
             
             <div class = 'iconsRow'>
-                <span class="material-icons md-18">room</span>
+                <img class = 'iconDetails' src = '../../assets/ic_location.png' alt = ''/>
                 <p class = 'margingRight04'>3312 DT Antwerpen</p>
             </div>
             
             <div class = 'iconsRow'>
-                <span class="material-icons md-18">euro_symbol</span>
+                 <img class = 'iconDetails' src = '../../assets/ic_price.png' alt = ''/>
                 <p class = 'marginRight04'>200.000</p>
-                <span class="material-icons md-18">aspect_ratio</span>
+                 <img class = 'iconDetails' src = '../../assets/ic_size.png' alt = ''/>
                 <p class = 'marginRight04'>120 m2</p>
-                <span class="material-icons md-18">handyman</span>
+                 <img class = 'iconDetails' src = '../../assets/ic_construction_date.png' alt = ''/>
                 <p class = 'marginRight04'>1967</p>
             </div>
             
             <div class = 'iconsRow'>
-                <span class="material-icons md-18">bed</span>
+                 <img class = 'iconDetails' src = '../../assets/ic_bed.png' alt = ''/>
                 <p class = 'marginRight04'>1</p>
-                <span class="material-icons md-18">bathtub</span>
+                 <img class = 'iconDetails' src = '../../assets/ic_bath.png' alt = ''/>
                 <p class = 'marginRight04'>1</p>
-                <span class="material-icons md-18">garage</span>
+                 <img class = 'iconDetails' src = '../../assets/ic_garage.png' alt = ''/>
                 <p class = 'marginRight04'>Yes</p>
             </div>
       </div>
@@ -74,7 +74,8 @@ export default {
     }
 
     .gridRow3{
-        grid-row: 3
+        grid-row: 3;
+        width: 60%;
     }
 
     .gridRow4{
@@ -107,7 +108,11 @@ export default {
     .iconsRow{
         display: flex;
         align-items: center;
+        justify-content: flex-start;
     }
 
+    .iconDetails{
+        margin-right: 0.5rem;
+    }
     
 </style>

@@ -1,18 +1,18 @@
 <template>
   <div id = 'overviewTileContainer' >
       <div id = 'overviewTileLeft' @click="$router.push('/details')" >
-          <img id = "overviewTileImage" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/tiny-houses-1579284305.png?crop=1.00xw:0.788xh;0,0.189xh&resize=640:*" alt="">
-          <div>
-              <h2>Kleinegrootstraat 11</h2>
-              <h3>$200.000</h3>
-              <p class = 'light'>3312 DT Antwerpen</p>
+          <img id = "overviewTileImage" :src='image' alt="">
+          <div id = 'overviewTileMiddle'>
+              <h2>{{adress}}</h2>
+              <h3>${{price}}</h3>
+              <p class = 'light'>{{postalCode}}, {{city}}</p>
               <div id = 'iconsContainer'>
-                  <span class="material-icons md-18">bed</span>
-                  <p class = 'marginRight04'>1</p>
-                  <span class="material-icons md-18">bathtub</span>
-                  <p class = 'marginRight04'>1</p>
-                  <span class="material-icons md-18">aspect_ratio</span>
-                  <p class = 'marginRight04'>120 m2</p>
+                  <img class = 'iconSmall' src = '../../assets/ic_bed.png' alt = ''/>
+                  <p class = 'marginRight04'>{{numberOfBedrooms}}</p>
+                  <img class = 'iconSmall' src = '../../assets/ic_bath.png' alt = ''/>
+                  <p class = 'marginRight04'>{{numberOfBathrooms}}</p>
+                  <img class = 'iconSmall' src = '../../assets/ic_size.png' alt = ''/>
+                  <p class = 'marginRight04'>{{surfaceArea}} m2</p>
               </div>
           </div>
       </div>
@@ -26,10 +26,14 @@
 
 import EditDeleteIcons from '../EditDeleteIcons.vue'
 
+
 export default {
     components:{
         EditDeleteIcons
-    }
+    },
+    props: [
+        'adress','price','postalCode','city','numberOfBedrooms','numberOfBathrooms','surfaceArea','image'
+    ] 
 }
 </script>
 
@@ -54,6 +58,10 @@ export default {
         padding: 1rem;
     }
 
+    #overviewTileMiddle{
+        width: 20%;
+    }
+
     #overviewTileRight{
         display:flex;
         height: 20%;
@@ -73,6 +81,13 @@ export default {
         border-radius: 6px;
     }
 
+    
+    .iconSmall{
+      
+        margin-right: 0.5rem;
+        height: 20%;
+        
+    }
    
 
 </style>

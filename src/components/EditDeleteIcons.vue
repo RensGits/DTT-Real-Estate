@@ -1,7 +1,7 @@
 <template>
         <div  id = 'iconsContainer'>
-          <span class="material-icons clickableIcon" @click="$router.push('/edit-listing')" >edit</span>
-          <span class="material-icons clickableIcon">delete</span>
+            <img class = 'iconEditDelete ' src = '../assets/ic_edit.png' alt = ''  @click="$router.push('/edit-listing')" />
+            <img class = 'iconEditDelete' src = '../assets/ic_delete.png' alt = ''/>
         </div>
 </template>
 
@@ -14,24 +14,18 @@ export default {
 <style>
  #iconsContainer{
         display: flex;
+        justify-content: space-between;
         align-items: center;
     }
 
-    
-
-    .material-icons.md-18 { 
-        font-size: 18px;
-        margin-right: 0.6rem; 
-        margin-left: 0;
-        color: rgb(181, 181, 181)
-    }
-
-    .marginRight04{
-        margin-right: 0.4rem;
-    }
 
     .clickableIcon:hover{
         cursor: pointer;
-        font-size: 2rem;
+       
+    }
+
+    .iconEditDelete{
+        width: 40%;
+        height: auto;
     }
 </style>
