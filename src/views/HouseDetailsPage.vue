@@ -10,11 +10,14 @@
 import BackToHome from '../components/BackToHome.vue'
 import HouseDetailsTile from '../components/HouseDetails/HouseDetailsTile.vue'
 
+
 export default {
     components:{
        BackToHome,
        HouseDetailsTile
-    }
+    },
+
+   
 }
 </script>
 

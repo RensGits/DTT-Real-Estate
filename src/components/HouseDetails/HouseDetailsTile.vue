@@ -1,9 +1,9 @@
 <template>
   <div class = 'detailsTileContainer'>
-      <div class = 'gridRow1'><img class = 'detailsTileImage' src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/tiny-houses-1579284305.png?crop=1.00xw:0.788xh;0,0.189xh&resize=640:*" alt=""></div>
+      <div class = 'gridRow1'><img class = 'detailsTileImage' :src='house.image' alt=""></div>
       <div class = 'gridRow2'>
         
-        <h1>Kleinegrootstraat 11</h1>
+        <h1>{{house.location.street}}</h1>
         <EditDeleteIcons/>
         
       </div>
@@ -11,29 +11,29 @@
             
             <div class = 'iconsRow'>
                 <img class = 'iconDetails' src = '../../assets/ic_location.png' alt = ''/>
-                <p class = 'margingRight04'>3312 DT Antwerpen</p>
+                <span class = 'margingRight04'>{{house.location.zip}}</span><span class = 'margingRight04'>{{house.location.city}}</span>
             </div>
             
             <div class = 'iconsRow'>
                  <img class = 'iconDetails' src = '../../assets/ic_price.png' alt = ''/>
-                <p class = 'marginRight04'>200.000</p>
+                <p class = 'marginRight04'>{{house.price}}</p>
                  <img class = 'iconDetails' src = '../../assets/ic_size.png' alt = ''/>
-                <p class = 'marginRight04'>120 m2</p>
+                <p class = 'marginRight04'>{{house.size}}</p>
                  <img class = 'iconDetails' src = '../../assets/ic_construction_date.png' alt = ''/>
-                <p class = 'marginRight04'>1967</p>
+                <p class = 'marginRight04'>{{house.constructionYear}}</p>
             </div>
             
             <div class = 'iconsRow'>
                  <img class = 'iconDetails' src = '../../assets/ic_bed.png' alt = ''/>
-                <p class = 'marginRight04'>1</p>
+                <p class = 'marginRight04'>{{house.rooms.bedrooms}}</p>
                  <img class = 'iconDetails' src = '../../assets/ic_bath.png' alt = ''/>
-                <p class = 'marginRight04'>1</p>
+                <p class = 'marginRight04'>{{house.rooms.bathrooms}}</p>
                  <img class = 'iconDetails' src = '../../assets/ic_garage.png' alt = ''/>
-                <p class = 'marginRight04'>Yes</p>
+                <p class = 'marginRight04'>{{house.hasGarage}}</p>
             </div>
       </div>
       <p class = 'gridRow4'>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus dolore vel dolor cupiditate quod delectus asperiores minus vero autem consequuntur natus ipsa labore nostrum sunt, commodi nulla magnam quaerat, quas, eligendi neque nesciunt ab ut. Itaque praesentium id incidunt harum!
+          {{house.description}}
       </p>
   </div>
   
@@ -43,10 +43,31 @@
 
 import EditDeleteIcons from '../EditDeleteIcons.vue'
 
+
 export default {
+
+
+
     components:{
         EditDeleteIcons
+    },
+
+    computed: {
+        house(){ // stores getter data in house property
+            return this.$store.getters.getHouseById(this.$route.params.id);  // gets page specific house data based on id
+        }    
+    },
+    
+
+
+    mounted(){
+        
+                
     }
+   
+        
+        
+    
 }
 </script>
 
@@ -114,5 +135,7 @@ export default {
     .iconDetails{
         margin-right: 0.5rem;
     }
-    
+    .margingRight04{
+        margin-right: 0.4rem;
+    }
 </style>

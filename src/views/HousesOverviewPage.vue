@@ -8,6 +8,8 @@
     </div>
       <div class = 'spacingSearchbar'>
       <SearchBar/>
+      <p>test</p>
+      
       <div>
         <button id = 'btnleft' class = 'toggleBtn left' :class = '{toggleBtnActive: btnLeftActive }' @click='handleBtnToggle'>Price</button>
         <button id = 'btnright' class = 'toggleBtn right' :class = '{toggleBtnActive: btnRightActive }' @click='handleBtnToggle'>Size</button>
@@ -15,9 +17,10 @@
       </div>
 
     <!-- Houses list / todo: add v-for and data handling -->
-    <div  > 
+    <div> 
       <HouseOverviewTile 
-        v-for="house in getFilteredHouses" :key="house.id"
+        v-for="house in getFilteredHouses" @click ="$router.push('/details/' + house.id)"
+        :key= "house.id"
         :adress = 'house.location.street'
         :price = 'house.price'
         :postalCode = 'house.location.zip '
@@ -26,6 +29,8 @@
         :numberOfBathrooms = 'house.rooms.bathrooms'
         :surfaceArea = 'house.size' 
         :image = 'house.image'/>
+        
+     
     </div>
   </div>
 </template>
@@ -50,15 +55,11 @@ export default {
     }},
   
 
-  computed: mapGetters(['allHouses','getFilteredHouses']),
-        handleFilterHouses(){
-            this.getFilteredHouses();
-        },
-    
-
+  computed: mapGetters(['getFilteredHouses']),
+       
   methods: {
     ...mapActions(['fetchHouses', 'sortingToPrice', 'sortingToSize']),
-    
+
     handleBtnToggle(e){
       console.log(e.target.id)
       if(e.target.id === 'btnright'){
@@ -77,6 +78,7 @@ export default {
     this.fetchHouses();
   
   },
+
 
   
   }
@@ -126,6 +128,12 @@ export default {
 
 .right{
   border-radius: 0 7px 7px 0;
+}
+
+.resultsCounter{
+  flex: 1;
+  padding-left: 1rem;
+  font-size: 0.7rem
 }
 
 </style>

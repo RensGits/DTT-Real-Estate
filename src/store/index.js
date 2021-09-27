@@ -8,7 +8,9 @@ export default createStore({
     
     houses: [],
     registerd: false,
-    currentSearchInput: ''
+    currentSearchInput: '',
+    searchResultsCounter: null,
+    currentHouse: []
 
   
  
@@ -18,14 +20,17 @@ export default createStore({
       allHouses: state =>{                        // gets current list of houses
         return state.houses
       },
+
       registered: state => {                      // gets registered state
         return state.registerd
       },
-      currentSearchInput: state => {              // gets current search input
+
+      getCurrentSearchInput: state => {           // gets current search input
         return state.currentSearchInput
       },
+
       getFilteredHouses: state => {               // gets filtered houses based on search input
-        console.log(state.currentSearchInput) 
+        
         const filteredHouses = state.houses.filter(
           house =>  (house.location.zip.toLowerCase().includes(state.currentSearchInput.toLowerCase()))     ||    //filters on zipcode
                     (house.location.street.toLowerCase().includes(state.currentSearchInput.toLowerCase()))  ||    //filters on streetname
@@ -33,11 +38,22 @@ export default createStore({
                     (JSON.stringify(house.size).includes(state.currentSearchInput.toLowerCase()))                 //filters on size
         );
         return filteredHouses
-       
+      },
+
+      getHouseById: state => (id) => {            // gets house based on id
         
-          
+        const singleHouse = state.houses.find(house => JSON.stringify(house.id) === id)  
+        console.log('Current house data: ')
+        console.log(singleHouse)
+        return singleHouse
       }
-      
+
+     
+    
+
+    
+
+
   },
   
 
@@ -58,16 +74,22 @@ export default createStore({
       axios(config)
       .then(function (response) {
         console.log('---- FETCH SUCCES ----')
-        console.log('fetch data: ')
+        console.log('response data: ')
         console.log(response.data);
         commit('setHouses',response.data)
+       
       })
+      
       .catch(err => {
         console.log('---- FETCH ERROR ----')
         console.log(err)}
-      );
-     
+      )
     },
+
+    
+   
+
+
 
     sortingToSize({commit, getters}){                         // sorts houses list to size upon toggeling filter button to size
       const sortedBySize = sortArray(getters.allHouses, {
@@ -89,6 +111,10 @@ export default createStore({
       commit('setUserInput', payload)
     },
 
+   
+  
+
+  
     
 
     
@@ -97,8 +123,7 @@ export default createStore({
   mutations: {                
     setHouses(state,fetchResponseFromActions){              // inital houses list commmit
       state.houses = fetchResponseFromActions
-      console.log('current state: ')
-      console.log(state.houses);
+      
     },
     setSortedByPrice(state,sortStateFromActions){           // price sorting commit
       state.houses = sortStateFromActions
@@ -111,7 +136,6 @@ export default createStore({
     setUserInput(state,userInputFromActions){               // user search input commit
       state.currentSearchInput = userInputFromActions
     },
-   
   },
 
   

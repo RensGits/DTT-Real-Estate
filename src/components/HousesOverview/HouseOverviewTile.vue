@@ -1,6 +1,6 @@
-<template>
+<template >
   <div id = 'overviewTileContainer' >
-      <div id = 'overviewTileLeft' @click="$router.push('/details')" >
+      <div id = 'overviewTileLeft'>
           <img id = "overviewTileImage" :src='image' alt="">
           <div id = 'overviewTileMiddle'>
               <h2>{{adress}}</h2>
@@ -27,14 +27,16 @@
 import EditDeleteIcons from '../EditDeleteIcons.vue'
 
 
+
 export default {
     components:{
         EditDeleteIcons
     },
     props: [
         'adress','price','postalCode','city','numberOfBedrooms','numberOfBathrooms','surfaceArea','image'
-    ] 
-}
+        ],
+    }
+    
 </script>
 
 <style>
