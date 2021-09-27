@@ -1,13 +1,16 @@
 <template>
-    <input id = 'searchBar' type = 'text' placeholder="  Search for a house" @keyup="handleSearchInput"/>
+    <input id = 'searchBar' type = 'text' placeholder="Search for a house" :value = 'this.currentSearchInput' @keyup="handleSearchInput"/>
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapActions,mapGetters} from 'vuex'
 
 export default {
     
- 
+    computed: {
+        ...mapGetters(['currentSearchInput'])
+        
+    },
 
     methods: {
         ...mapActions(['searchInput']),
