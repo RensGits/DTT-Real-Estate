@@ -17,8 +17,8 @@
     <!-- Houses list / todo: add v-for and data handling -->
     <div  > 
       <HouseOverviewTile 
-        v-for="house in allHouses" :key="house.id"
-        :adress = 'house.adres'
+        v-for="house in getFilteredHouses" :key="house.id"
+        :adress = 'house.location.street'
         :price = 'house.price'
         :postalCode = 'house.location.zip '
         :city = 'house.location.city'
@@ -50,7 +50,10 @@ export default {
     }},
   
 
-  computed: mapGetters(['allHouses']),
+  computed: mapGetters(['allHouses','getFilteredHouses']),
+        handleFilterHouses(){
+            this.getFilteredHouses();
+        },
     
 
   methods: {
@@ -70,9 +73,6 @@ export default {
       }}
     },
   
-  
-  
-
   created(){
     this.fetchHouses();
   

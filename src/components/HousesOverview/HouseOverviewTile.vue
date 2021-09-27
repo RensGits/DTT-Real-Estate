@@ -59,7 +59,7 @@ export default {
     }
 
     #overviewTileMiddle{
-        width: 20%;
+        min-width: 20%;
     }
 
     #overviewTileRight{

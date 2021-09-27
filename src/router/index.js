@@ -5,7 +5,7 @@ import CreateListingPage from '../views/CreateListingPage.vue'
 import EditListingPage from '../views/EditListingPage.vue'
 import HouseDetailsPage from '../views/HouseDetailsPage.vue'
 import HousesOverviewPage from '../views/HousesOverviewPage.vue'
-
+import RegisterPage from '../views/RegisterPage.vue'
 
 
 const routes = [
@@ -34,6 +34,11 @@ const routes = [
     name: 'housesOverviewPage',
     component: HousesOverviewPage
   },
+  {
+    path: '/register',
+    name: 'registerPage',
+    component: RegisterPage
+  }
 ]
 
 const router = createRouter({

@@ -1,6 +1,5 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
-import { _ } from 'core-js'
 import sortArray from 'sort-array'
 
 export default createStore({
@@ -8,22 +7,43 @@ export default createStore({
   state: {
     
     houses: [],
+    registerd: false,
+    currentSearchInput: ''
+
   
-  //temporary state changes
+ 
   },
 
   getters: {
-      allHouses: (state) =>{
+      allHouses: state =>{                        // gets current list of houses
         return state.houses
       },
+      registered: state => {                      // gets registered state
+        return state.registerd
+      },
+      currentSearchInput: state => {              // gets current search input
+        return state.currentSearchInput
+      },
+      getFilteredHouses: state => {               // gets filtered houses based on search input
+        console.log(state.currentSearchInput) 
+        const filteredHouses = state.houses.filter(
+          house =>  (house.location.zip.toLowerCase().includes(state.currentSearchInput.toLowerCase()))     ||    //filters on zipcode
+                    (house.location.street.toLowerCase().includes(state.currentSearchInput.toLowerCase()))  ||    //filters on streetname
+                    (house.location.city.toLowerCase().includes(state.currentSearchInput.toLowerCase()))    ||    //filters on city
+                    (JSON.stringify(house.size).includes(state.currentSearchInput.toLowerCase()))                 //filters on size
+        );
+        return filteredHouses
+       
+        
+          
+      }
       
   },
   
 
-  // perpetual state changes
   actions: {
     
-    async fetchHouses({commit}){
+    async fetchHouses({commit}){  // initial data fetch on HousesOverviewPage mount
      
       var config = {
         method: 'get',
@@ -49,7 +69,7 @@ export default createStore({
      
     },
 
-    sortingToSize({commit, getters}){
+    sortingToSize({commit, getters}){                         // sorts houses list to size upon toggeling filter button to size
       const sortedBySize = sortArray(getters.allHouses, {
         by: 'size',
         order: 'asc'
@@ -57,31 +77,41 @@ export default createStore({
       commit('setSortedByPrice', sortedBySize)
     },
 
-    sortingToPrice({commit, getters}){
+    sortingToPrice({commit, getters}){                         // sorts houses list to price upon toggeling filter button to price
       const sortedByPrice = sortArray(getters.allHouses, {
         by: 'price',
         order: 'asc'
       })
       commit('setSortedByPrice', sortedByPrice)
-    }    
+    },
+
+    searchInput({commit},payload){                            // sets user search input to currentSearchInput
+      commit('setUserInput', payload)
+    },
+
+    
 
     
   },
 
-  mutations: {
-    setHouses(state,fetchResponseFromActions){
+  mutations: {                
+    setHouses(state,fetchResponseFromActions){              // inital houses list commmit
       state.houses = fetchResponseFromActions
       console.log('current state: ')
       console.log(state.houses);
     },
-    setSortedByPrice(state,sortStateFromActions){
+    setSortedByPrice(state,sortStateFromActions){           // price sorting commit
       state.houses = sortStateFromActions
       console.log('sorted to price - ascending')
     },
-    setSortedBySize(state,sortStateFromActions){
+    setSortedBySize(state,sortStateFromActions){            // size sorting commit
       state.houses = sortStateFromActions
       console.log('sorted to size - ascending')
-    }
+    },
+    setUserInput(state,userInputFromActions){               // user search input commit
+      state.currentSearchInput = userInputFromActions
+    },
+   
   },
 
   

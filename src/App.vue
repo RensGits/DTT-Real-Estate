@@ -3,10 +3,14 @@
     <div id = 'nav'>
       <div id = 'navItems'>
         <img src = './assets/DTT_logo_black.svg' alt = ''/>
+        <div id = 'pagesLink'>
         <router-link to ='/'>Houses</router-link>
         <router-link to ='/about'>About</router-link>
+        </div>
+        <router-link id = 'registerLink' to = '/register'>Register</router-link>
         
       </div> 
+        
     </div>
     <router-view id = 'routerView'/>
   </div>  
@@ -74,13 +78,14 @@ html,body{
 }
 
 #app {
-  min-height: 100%;
+  min-height: 100vh;
   width: 100%;
   background-color: rgb(246,246,246);
 }
 
 #routerView{
   width: 100%;
+  min-height: 80vh;
   height: auto;
   padding: 0 20%;
   margin-top: 2rem;
@@ -100,6 +105,7 @@ html,body{
 #navItems{
   display:flex;
   align-items: center;
+  justify-content: space-between;
   width: 60%;
 }
 
@@ -120,6 +126,15 @@ html,body{
   width: auto;
   height: 50%;
 }
+
+#pagesLink{
+  flex:1;
+}
+
+#registerLink{
+  justify-self: flex-end;
+}
+
 
    
 </style>

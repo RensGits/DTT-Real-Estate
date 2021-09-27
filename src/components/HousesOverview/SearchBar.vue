@@ -1,11 +1,26 @@
 <template>
-    <input id = 'searchBar' type = 'text' placeholder="  Search for a house"/>
+    <input id = 'searchBar' type = 'text' placeholder="  Search for a house" @keyup="handleSearchInput"/>
 </template>
 
 <script>
-export default {
+import {mapActions} from 'vuex'
 
+export default {
+    
+ 
+
+    methods: {
+        ...mapActions(['searchInput']),
+        handleSearchInput(e){
+            
+            this.searchInput(e.target.value);
+        
+        }    
+    }
 }
+
+
+
 </script>
 
 <style>
