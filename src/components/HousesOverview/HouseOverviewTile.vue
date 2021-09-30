@@ -17,12 +17,8 @@
           </div>
       </div>
       <div id = 'overviewTileRight'>
-      <div  id = 'iconsContainer' v-if= 'id > 11'>
-            
+        <div  id = 'iconsContainer' v-if= 'id > 11'>
             <EditDeleteIcons :id = id />
-            <!-- <img class = 'iconEditDelete' src = '../../assets/ic_edit.png' alt = ''  @click="$router.push('/edit-listing/' + id)" />
-            <img class = 'iconEditDelete' src = '../../assets/ic_delete.png' alt = '' @click="deleteHouse('id')"/>
-            <p>{{id}}</p> -->
         </div>
       </div>
   </div>

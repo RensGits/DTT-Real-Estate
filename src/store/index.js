@@ -161,7 +161,7 @@ export default createStore({
 
         var configPicture = {
           method: 'post',
-          url: payload.id ? `http://localhost:8080/api/houses/${payload.id}/upload` : `http://localhost:8080/api/houses/${idFromResponse}/upload`,
+          url: payload.id ? `http://localhost:8080/api/houses/${payload.id}` : `http://localhost:8080/api/houses/${idFromResponse}/upload`,
           headers: { 
             'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV', 
             'Content-Type': 'multipart/form-data'
@@ -229,20 +229,14 @@ export default createStore({
 
 
 
-    sortingToSize({commit, getters}){                         // sorts houses list to size upon toggeling filter button to size
-      const sortedBySize = sortArray(getters.allHouses, {
-        by: 'size',
-        order: 'asc'
-      })
-      commit('setSortedByPrice', sortedBySize)
+    sortingToSize({commit, state}){     
+      const houses = state.houses                    
+      commit('setSortedBySize', houses)
     },
 
-    sortingToPrice({commit, getters}){                         // sorts houses list to price upon toggeling filter button to price
-      const sortedByPrice = sortArray(getters.allHouses, {
-        by: 'price',
-        order: 'asc'
-      })
-      commit('setSortedByPrice', sortedByPrice)
+    sortingToPrice({commit, state}){ 
+      const houses = state.houses                     
+      commit('setSortedByPrice', houses)
     },
 
     searchInput({commit},payload){                            // sets user search input to currentSearchInput
@@ -266,12 +260,20 @@ export default createStore({
       state.houses = fetchResponseFromActions
       
     },
-    setSortedByPrice(state,sortStateFromActions){           // price sorting commit
-      state.houses = sortStateFromActions
+    setSortedByPrice(state,houses){                         // sorts houses list to price upon toggeling filter button to price
+      const sortedArray = sortArray(houses, {
+        by: 'price',
+        order: 'asc'
+      })         // price sorting commit
+      state.houses = sortedArray
       console.log('sorted to price - ascending')
     },
-    setSortedBySize(state,sortStateFromActions){            // size sorting commit
-      state.houses = sortStateFromActions
+    setSortedBySize(state, houses){                         // sorts houses list to size upon toggeling filter button to size
+      const sortedArray = sortArray(houses, {
+        by: 'size',
+        order: 'asc'
+      })            // size sorting commit
+      state.houses = sortedArray
       console.log('sorted to size - ascending')
     },
     setUserInput(state,userInputFromActions){               // user search input commit
