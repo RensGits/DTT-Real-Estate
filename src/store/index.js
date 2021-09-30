@@ -3,6 +3,10 @@ import axios from 'axios'
 import sortArray from 'sort-array'
 
 export default createStore({
+
+  strict: true,
+
+
   //current state
   state: {
     
@@ -10,11 +14,28 @@ export default createStore({
     registerd: false,
     currentSearchInput: '',
     searchResultsCounter: null,
-    currentHouse: []
+    currentHouse: [],
+
+    newListing: {                   
+      price: '',
+      bedrooms: '',
+      bathrooms: '',
+      size: '',
+      streetName: '',
+      houseNumber: '',
+      numberAddition: '',
+      zip: '',
+      city: '',
+      constructionYear: '',
+      hasGarage: '',
+      description: '',
+    }
 
   
  
   },
+
+                                                                     // --------------------------------- GETTERS ------------------------------ //
 
   getters: {
       allHouses: state =>{                        // gets current list of houses
@@ -46,7 +67,12 @@ export default createStore({
         console.log('Current house data: ')
         console.log(singleHouse)
         return singleHouse
+      },
+
+      getNewListing: state => {
+        return state.newListing
       }
+
 
      
     
@@ -55,6 +81,8 @@ export default createStore({
 
 
   },
+
+                                                                     // --------------------------------- ACTIONS ------------------------------ //
   
 
   actions: {
@@ -86,8 +114,119 @@ export default createStore({
       )
     },
 
+
+    async postHouse({commit},payload){
+      console.log(payload)
+      var FormData = require('form-data');
+      var data = new FormData();
+      
+      console.log(payload.file)
+
+      data.append('price', payload.price);
+      data.append('bedrooms', payload.bedrooms);
+      data.append('bathrooms', payload.bathrooms);
+      data.append('size',payload.size);
+      data.append('streetName', payload.streetName);
+      data.append('houseNumber', payload.houseNumber);
+      data.append('numberAddition',payload.numberAddition);
+      data.append('zip', payload.zip);
+      data.append('city',payload.city);
+      data.append('constructionYear', payload.constructionYear);
+      data.append('hasGarage', payload.hasGarage);
+      data.append('description', payload.description);
+
+      var config = {
+        method: 'post',
+        url: 'http://localhost:8080/api/houses/',
+        headers: { 
+          'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV', 
+        },
+        data : data
+      };
+
+      let id = ''
+      let image = payload.file
+
+      axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        id = response.data.id
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(async function(){
+        console.log(image)
+        var dataPicture = new FormData();
+        dataPicture.append('image', image);
+
+        var configPicture = {
+          method: 'post',
+          url: `http://localhost:8080/api/houses/${id}/upload`,
+          headers: { 
+            'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV', 
+            'Content-Type': 'multipart/form-data'
+          },
+          data : dataPicture
+        };
+      
+        axios(configPicture)
+        .then(function (response) {
+        console.log(response.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
+
+
+      })
+
+
+      
+
+
+
+
+
+      
+
+    },
+
+
+
+
+
+
+    async deleteHouseAPI({commit}, id){
+        console.log('post method reached')
+        console.log('id :')
+        console.log(id)
+        console.log('http://localhost:8080/api/houses/' + id)
+      var config = {
+        method: 'delete',
+        url: 'http://localhost:8080/api/houses/' + id,
+        headers: { 
+          'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV'
+        }
+      };
+
+        axios(config)
+        .then(function (response) {
+          console.log(JSON.stringify(response.data))
+          console.log(`House with ID: ${id} deleted`)
+        })
+        .catch(function (err) {
+          console.log(err);
+        })
+    },
+
     
-   
+    currentHouseToNewListing({commit},id){
+      
+      commit('setCurrentHouseToNewListing', currentHouse)
+    },
+ 
 
 
 
@@ -110,15 +249,18 @@ export default createStore({
     searchInput({commit},payload){                            // sets user search input to currentSearchInput
       commit('setUserInput', payload)
     },
+  },
+    
 
    
   
 
-  
+    
+                                                                     // --------------------------------- MUTATIONS ------------------------------ //
     
 
     
-  },
+
 
   mutations: {                
     setHouses(state,fetchResponseFromActions){              // inital houses list commmit
@@ -136,6 +278,9 @@ export default createStore({
     setUserInput(state,userInputFromActions){               // user search input commit
       state.currentSearchInput = userInputFromActions
     },
+    setNewListing(state, newListingFromActions){
+      state.newListing = newListingFromActions
+    }
   },
 
   

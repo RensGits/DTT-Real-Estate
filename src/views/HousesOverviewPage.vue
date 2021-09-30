@@ -19,7 +19,7 @@
     <!-- Houses list / todo: add v-for and data handling -->
     <div> 
       <HouseOverviewTile 
-        v-for="house in getFilteredHouses" @click ="$router.push('/details/' + house.id)"
+        v-for="house in getFilteredHouses"
         :key= "house.id"
         :adress = 'house.location.street'
         :price = 'house.price'
@@ -28,7 +28,8 @@
         :numberOfBedrooms = 'house.rooms.bedrooms'
         :numberOfBathrooms = 'house.rooms.bathrooms'
         :surfaceArea = 'house.size' 
-        :image = 'house.image'/>
+        :image = 'house.image'
+        :id = 'house.id'/>
         
      
     </div>

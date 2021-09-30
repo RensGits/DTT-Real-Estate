@@ -4,7 +4,7 @@
       <div class = 'gridRow2'>
         
         <h1>{{house.location.street}}</h1>
-        <EditDeleteIcons/>
+        <EditDeleteIcons :id = 'id'/>
         
       </div>
       <div class = 'gridRow3'>
@@ -46,7 +46,11 @@ import EditDeleteIcons from '../EditDeleteIcons.vue'
 
 export default {
 
-
+    data(){
+        return{
+            id: this.$route.params.id 
+        }
+    },
 
     components:{
         EditDeleteIcons
@@ -54,19 +58,9 @@ export default {
 
     computed: {
         house(){ // stores getter data in house property
-            return this.$store.getters.getHouseById(this.$route.params.id);  // gets page specific house data based on id
+            return this.$store.getters.getHouseById(this.id);  // gets page specific house data based on id
         }    
     },
-    
-
-
-    mounted(){
-        
-                
-    }
-   
-        
-        
     
 }
 </script>
@@ -77,7 +71,6 @@ export default {
         grid-template-rows: 30rem 10rem 10rem auto;
         background-color:white;
         width: 70%;
-
     }
 
    .gridRow2,.gridRow3,.gridRow4{

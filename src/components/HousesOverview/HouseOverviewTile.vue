@@ -1,6 +1,6 @@
 <template >
-  <div id = 'overviewTileContainer' >
-      <div id = 'overviewTileLeft'>
+  <div id = 'overviewTileContainer'  >
+      <div id = 'overviewTileLeft' @click ="$router.push('/details/' + id)" >
           <img id = "overviewTileImage" :src='image' alt="">
           <div id = 'overviewTileMiddle'>
               <h2>{{adress}}</h2>
@@ -17,7 +17,13 @@
           </div>
       </div>
       <div id = 'overviewTileRight'>
-      <EditDeleteIcons/>
+      <div  id = 'iconsContainer' v-if= 'id > 11'>
+            
+            <EditDeleteIcons :id = id />
+            <!-- <img class = 'iconEditDelete' src = '../../assets/ic_edit.png' alt = ''  @click="$router.push('/edit-listing/' + id)" />
+            <img class = 'iconEditDelete' src = '../../assets/ic_delete.png' alt = '' @click="deleteHouse('id')"/>
+            <p>{{id}}</p> -->
+        </div>
       </div>
   </div>
 </template>
@@ -25,7 +31,7 @@
 <script>
 
 import EditDeleteIcons from '../EditDeleteIcons.vue'
-
+import {mapActions} from 'vuex'
 
 
 export default {
@@ -33,9 +39,17 @@ export default {
         EditDeleteIcons
     },
     props: [
-        'adress','price','postalCode','city','numberOfBedrooms','numberOfBathrooms','surfaceArea','image'
+        'adress','price','postalCode','city','numberOfBedrooms','numberOfBathrooms','surfaceArea','image','id'
         ],
-    }
+    
+
+    methods: {
+    ...mapActions(['deleteHouseAPI']),
+        deleteHouse(){
+            console.log('delete button clicked')
+            console.log(this.id)
+            this.deleteHouseAPI(this.id)
+        }}}
     
 </script>
 
@@ -49,7 +63,12 @@ export default {
         margin: 1rem 0;
         border-radius: 8px;
         background-color: white;
+    }
 
+     #overviewTileContainer:hover{
+        cursor: pointer;
+        background-color:rgba(230, 86, 64, 0.576) ;
+       
     }
 
     #overviewTileLeft{
@@ -59,6 +78,9 @@ export default {
         width: 90%;
         padding: 1rem;
     }
+
+   
+
 
     #overviewTileMiddle{
         min-width: 20%;
@@ -91,5 +113,21 @@ export default {
         
     }
    
+    #iconsContainer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+
+    .clickableIcon:hover{
+        cursor: pointer;
+       
+    }
+
+    .iconEditDelete{
+        width: 40%;
+        height: auto;
+    }
 
 </style>

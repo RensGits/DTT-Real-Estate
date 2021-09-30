@@ -1,0 +1,10 @@
+
+How to deal with CORS error: https://www.youtube.com/watch?v=WsYrDu7xkEw
+
+How to set up Vue router: https://vueschool.io/articles/vuejs-tutorials/how-to-use-vue-router-a-complete-tutorial/
+
+How to pass payload to action with mapActions : https://forum.vuejs.org/t/vuex-how-to-pass-an-argument-to-the-action-in-component-when-using-mapactions/3846
+
+How to set local component data to returned value from getter: https://stackoverflow.com/questions/44834822/how-to-set-data-properties-to-value-returned-from-vuex-getter
+
+File Upload: https://www.digitalocean.com/community/tutorials/how-to-handle-file-uploads-in-vue-2

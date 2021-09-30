@@ -20,9 +20,10 @@ const routes = [
     component: CreateListingPage
   },
   {
-    path: '/edit-listing',
+    path: '/edit-listing/:id',
     name: 'editListingPage',
-    component: EditListingPage
+    component: EditListingPage,
+    props: true
   },
   {
     path: '/details/:id',

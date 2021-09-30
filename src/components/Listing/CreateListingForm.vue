@@ -1,72 +1,116 @@
 <template>
     <h1>Create new listing</h1>
-    <form class = 'form'>
+    <form class = 'form' @submit.prevent = 'handleSubmit' enctype="multipart/form-data">
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="streetName">Street name*</label>
-            <input class = 'inputField' type="text" >
+            <input class = 'inputField' type="text" id = 'streetName' v-model = "newListingData.streetName">
         </div>
         <div class = 'inputFieldContainerWrapper'>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="houseNumber">House number*</label>
-                <input class = 'inputField' type="text">
+                <input class = 'inputField' type="text" id = 'houseNumber' v-model = "newListingData.houseNumber">
             </div>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="addition">Addition (optional)</label>
-                <input class = 'inputField' type="text">
+                <input class = 'inputField' type="text" id = 'addition' v-model = "newListingData.numberAddition">
             </div>
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="postalCode">Postal Code*</label>
-            <input class = 'inputField' type="text">
+            <input class = 'inputField' type="text" id = 'postalCode' v-model = "newListingData.zip">
         </div>
         <div class = 'inputFieldContainer'>
-            <label class = 'inputFieldHeader' for="City">City</label>
-            <input class = 'inputField' type="text">
+            <label class = 'inputFieldHeader' for="city">City</label>
+            <input class = 'inputField' type="text" id = 'city' v-model = 'newListingData.city'>
         </div>
         <div class = 'inputFieldContainer'>
-            <label class = 'inputFieldHeader' for="uploadPicutre">Upload picture (PNG or JPG)*</label>
-            
-            <input class = 'uploadPictureBox' value = '+' type="file" id="img" name="img" accept="image/*"/>
+            <label class = 'inputFieldHeader' for="uploadPicuture">Upload picture (PNG or JPG)*</label>
+            <input class = 'uploadPictureBox' type="file" id="uploadPicture" @change = 'handleFileUpload'/>
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="price">Price*</label>
-            <input class = 'inputField' type="text">
+            <input class = 'inputField' type="text" id = 'price' v-model = 'newListingData.price'>
         </div>
          <div class = 'inputFieldContainerWrapper'>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="size">Size*</label>
-                <input class = 'inputField' type="text">
+                <input class = 'inputField' type="text" id = 'size' v-model = 'newListingData.size' accept="image/*">
             </div>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="garage">Garage*</label>
-                <input class = 'inputField' type="text">
+                <select class = 'inputField' type="text" id = 'garage' v-model = 'newListingData.hasGarage'>
+                    <option value='true'>yes</option>
+                    <option value='false'>no</option>
+                </select>
             </div>
         </div>
         <div class = 'inputFieldContainerWrapper'>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="bedrooms">BedRooms*</label>
-                <input class = 'inputField' type="text">
+                <input class = 'inputField' type="text" id = 'bedrooms' v-model = 'newListingData.bedrooms'>
             </div>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="bathrooms">Bathrooms*</label>
-                <input class = 'inputField' type="text">
+                <input class = 'inputField' type="text" id = 'bathrooms' v-model = 'newListingData.bathrooms'>
             </div>
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="constructionDate">Construction date*</label>
-            <input class = 'inputField' type="text">
+            <input class = 'inputField' type="text" id = 'constructionDate' v-model = 'newListingData.constructionYear'>
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="description">Description*</label>
-            <input class = 'inputField' type="text">
+            <input class = 'inputField' type="text" id = 'description' v-model = 'newListingData.description'>
         </div>
         <input class = 'postButton' type = 'submit' value = 'POST'>
         
     </form>
 </template>
 
+
+
+
+
+
 <script>
+
+import{mapActions} from 'vuex'
+
 export default {
+
+    data(){
+        return{
+            newListingData: {
+            price: '',
+            bedrooms: '',
+            bathrooms: '',
+            size: '',
+            streetName: '',
+            houseNumber: '',
+            numberAddition: '',
+            zip: '',
+            city: '',
+            constructionYear: '',
+            hasGarage: '',
+            description: '',
+            file: null,
+            }
+        }
+    },
+
+    methods: {
+        ...mapActions(['postHouse']),
+        handleSubmit(){
+            console.log(this.newListingData)
+            console.log(this.newListingData.file)
+           this.postHouse(this.newListingData)
+        },
+        handleFileUpload(e){
+            console.log('handleFileUpload triggered')
+            
+            this.newListingData.file = e.target.files[0]
+        }
+    }
   
 }
 </script>
