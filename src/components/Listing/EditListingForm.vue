@@ -4,25 +4,25 @@
         <form class = 'form' @submit.prevent = 'handleSubmit' enctype="multipart/form-data">
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="streetName">Street name*</label>
-            <input class = 'inputField' type="text" id = 'streetName' v-model = 'streetName'>
+            <input class = 'inputField' type="text" id = 'streetName' v-model = "editedData.streetName">
         </div>
         <div class = 'inputFieldContainerWrapper'>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="houseNumber">House number*</label>
-                <input placeholder = '-' class = 'inputField' type="text" id = 'houseNumber' >
+                <input placeholder = '-' class = 'inputField' type="text" id = 'houseNumber' v-model = 'editedData.houseNumber'>
             </div>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="addition">Addition (optional)</label>
-                <input placeholder = '-' class = 'inputField' type="text" id = 'addition' >
+                <input placeholder = '-' class = 'inputField' type="text" id = 'addition' v-model = 'editedData.numberAddition' >
             </div>
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="postalCode">Postal Code*</label>
-            <input placeholder = '-' class = 'inputField' type="text" id = 'postalCode' v-model = 'zip' >
+            <input placeholder = '-' class = 'inputField' type="text" id = 'postalCode' v-model = 'editedData.zip' >
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="city">City</label>
-            <input placeholder = '-' class = 'inputField' type="text" id = 'city' v-model = 'city' >
+            <input placeholder = '-' class = 'inputField' type="text" id = 'city' v-model = 'editedData.city' >
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="uploadPicuture">Upload picture (PNG or JPG)*</label>
@@ -30,16 +30,16 @@
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="price">Price*</label>
-            <input  class = 'inputField' type="text" id = 'price' v-model = 'price' >
+            <input  class = 'inputField' type="text" id = 'price' v-model = 'editedData.price' >
         </div>
          <div class = 'inputFieldContainerWrapper'>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="size">Size*</label>
-                <input placeholder = '-.size' class = 'inputField' type="text" id = 'size' v-model = 'size' >
+                <input placeholder = '-.size' class = 'inputField' type="text" id = 'size' v-model = 'editedData.size' >
             </div>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="garage">Garage*</label>
-                <select class = 'inputField' type="text" id = 'garage' v-model = 'hasGarage' >
+                <select class = 'inputField' type="text" id = 'garage' v-model = 'editedData.hasGarage' >
                     <option value='true'>yes</option>
                     <option value='false'>no</option>
                 </select>
@@ -48,35 +48,38 @@
         <div class = 'inputFieldContainerWrapper'>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="bedrooms">BedRooms*</label>
-                <input placeholder = '-' class = 'inputField' type="text" id = 'bedrooms' v-model = 'bedrooms' >
+                <input placeholder = '-' class = 'inputField' type="text" id = 'bedrooms' v-model = 'editedData.bedrooms' >
             </div>
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="bathrooms">Bathrooms*</label>
-                <input placeholder = '-' class = 'inputField' type="text" id = 'bathrooms' v-model = 'bathrooms' >
+                <input placeholder = '-' class = 'inputField' type="text" id = 'bathrooms' v-model = 'editedData.bathrooms' >
             </div>
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="constructionDate">Construction date*</label>
-            <input placeholder = '-' class = 'inputField' type="text" id = 'constructionDate' v-model = 'constructionYear' >
+            <input placeholder = '-' class = 'inputField' type="text" id = 'constructionDate' v-model = 'editedData.constructionYear' >
         </div>
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="description">Description*</label>
-            <input placeholder = '-' class = 'inputField' type="text" id = 'description' v-model = 'description'>
+            <input placeholder = '-' class = 'inputField' type="text" id = 'description' v-model = 'editedData.description'>
         </div>
-        <input placeholder = '-' class = 'postButton' type = 'submit' value = 'SAVE' @click="handleClick">
+        <input placeholder = '-' class = 'postButton' type = 'submit' value = 'SAVE'>
         
     </form>
 </template>
 
 <script>
 
-import {mapGetters} from 'vuex';
+import {mapActions} from 'vuex';
 
 export default {
   data(){
       return{
-            id: this.$route.params.id,
+
+
            
+           
+            editedData:{
             price: '',
             bedrooms: '',
             bathrooms: '',
@@ -89,26 +92,45 @@ export default {
             constructionYear: '',
             hasGarage: '',
             description: '',
-            
+            image: '',
+            file: null,
+            id: this.$route.params.id,
+            }
         }
   },
 
             
   mounted(){
-    let data = this.$store.getters.getHouseById(this.id)
-    this.price = data.price
-    this.bedrooms = data.rooms.bedrooms
-    this.bathrooms = data.rooms.bathrooms
-    this.size = data.size
-    // this.streetName = data.location.street
-    // this.houseNumber =
-    // this.numberAddition
-    this.zip = data.location.zip
-    this.city = data.location.city
-    this.constructionYear = data.constructionYear
-    this.hasGarage = data.hasGarage
-    this.description = data.description
-  }    
+    let data = this.$store.getters.getHouseById(this.editedData.id)
+    this.editedData.price = data.price
+    this.editedData.bedrooms = data.rooms.bedrooms
+    this.editedData.bathrooms = data.rooms.bathrooms
+    this.editedData.size = data.size
+    this.editedData.streetName = data.location.street.split(/[0-9]/)[0]
+    this.editedData.houseNumber = data.location.street.match(/(\d+)/)[0]
+    this.editedData.numberAddition = data.location.street.split(data.location.street.match(/(\d+)/)[0])
+    this.editedData.zip = data.location.zip
+    this.editedData.city = data.location.city
+    this.editedData.constructionYear = data.constructionYear
+    this.editedData.hasGarage = data.hasGarage
+    this.editedData.description = data.description
+    this.editedData.image = data.image
+  },
+  
+  methods: {
+        ...mapActions(['postHouse']),
+        handleSubmit(){
+            console.log(this.editedData)
+            console.log(this.editedData.file)
+           this.postHouse(this.editedData)
+        },
+        handleFileUpload(e){
+            console.log('handleFileUpload triggered')
+            
+            this.editedData.file = e.target.files[0]
+        }
+    
+  }
     
  
 

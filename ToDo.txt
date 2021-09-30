@@ -47,16 +47,16 @@ more in-depth information about my selected house.
                 ■ I want to be able to see the address, postal code and city of the listing.
                 ■ I want to be able to see the description, image, number of bedrooms and
                 bathrooms, the size, construction and if the listing has a garage or not.
-■ If it is my own listing, I want to be able to delete and edit the listing.
+                ■ If it is my own listing, I want to be able to delete and edit the listing.
 
 
 User story 6: As a user, I want to be able to create my listing(s), by completing all the
 required fields in a form.
-■ I want to be able to add the address (street name, House number, Addition, Postal
-Code and City) of my listing.
-■ I want to be able to set an image, a description, a price, the size, the amount of
-bedrooms and bathrooms, the construction date whether my listing has a garage
-or not.
+                ■ I want to be able to add the address (street name, House number, Addition, Postal
+                Code and City) of my listing.
+                ■ I want to be able to set an image, a description, a price, the size, the amount of
+                bedrooms and bathrooms, the construction date whether my listing has a garage
+                or not.
 ■ If I have not completed all the required fields or there is a validation error in the
 form, I should see an appropriate error message.
 ■ After completing the form and creating the listing, I should be redirected to the
@@ -69,11 +69,11 @@ listing or delete the listing.
 
 
 User story 8: As the owner of a listing, I want to be able to edit my listing(s).
-■ I want to be able to edit the address (street name, House number, Addition, Postal
-Code and City) of my listing.
-■ I want to be able to edit the image, description, price, size, amount of bedrooms
-and bathrooms, the construction date and whether my listing has a garage or
-not.
+                ■ I want to be able to edit the address (street name, House number, Addition, Postal
+                Code and City) of my listing.
+                ■ I want to be able to edit the image, description, price, size, amount of bedrooms
+                and bathrooms, the construction date and whether my listing has a garage or
+                not.
 ■ If I have not completed all the required fields or there is a validation error in the
 form, I want to be informed with an appropriate error message.
 User story 9: As the owner of a listing, I want to be able to delete my listing(s).

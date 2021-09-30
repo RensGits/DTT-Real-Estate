@@ -117,10 +117,9 @@ export default createStore({
 
     async postHouse({commit},payload){
       console.log(payload)
+      console.log(payload.id)
       var FormData = require('form-data');
       var data = new FormData();
-      
-      console.log(payload.file)
 
       data.append('price', payload.price);
       data.append('bedrooms', payload.bedrooms);
@@ -137,20 +136,20 @@ export default createStore({
 
       var config = {
         method: 'post',
-        url: 'http://localhost:8080/api/houses/',
+        url: payload.id ? `http://localhost:8080/api/houses/${payload.id}` : 'http://localhost:8080/api/houses/', 
         headers: { 
           'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV', 
         },
         data : data
       };
 
-      let id = ''
+      let idFromResponse = ''
       let image = payload.file
 
       axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
-        id = response.data.id
+        idFromResponse = response.data.id
       })
       .catch(function (error) {
         console.log(error);
@@ -162,7 +161,7 @@ export default createStore({
 
         var configPicture = {
           method: 'post',
-          url: `http://localhost:8080/api/houses/${id}/upload`,
+          url: payload.id ? `http://localhost:8080/api/houses/${payload.id}/upload` : `http://localhost:8080/api/houses/${idFromResponse}/upload`,
           headers: { 
             'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV', 
             'Content-Type': 'multipart/form-data'
@@ -223,7 +222,7 @@ export default createStore({
 
     
     currentHouseToNewListing({commit},id){
-      
+
       commit('setCurrentHouseToNewListing', currentHouse)
     },
  
