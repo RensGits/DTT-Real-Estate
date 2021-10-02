@@ -17,6 +17,7 @@ export default {
         ...mapActions(['deleteHouseAPI']),
         handleDelete(){
             console.log('delete button clicked')
+            console.log(this.id)
             this.deleteHouseAPI(this.id)
         }
     },

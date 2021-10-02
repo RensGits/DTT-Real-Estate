@@ -1,6 +1,6 @@
 <template>
-    <input id = 'searchBar' type = 'text' placeholder="Search for a house" :value = 'this.getCurrentSearchInput' @keyup="handleSearchInput"/>
-    
+    <input id = 'searchBar' type = 'text' placeholder="Search for a house" @keyup="handleSearchInput"/>
+    <p v-if = 'getFilteredHouses.length > 0' id = 'resultsCounter'>{{getFilteredHouses.length}} results found.</p>
     
 </template>
 
@@ -12,27 +12,31 @@ import {mapActions,mapGetters} from 'vuex'
 export default {
 
     computed: {
-        ...mapGetters(['getCurrentSearchInput'])
+        ...mapGetters(['getCurrentSearchInput','getFilteredHouses', 'getNoResults'])
+
     },
 
     methods: {
-        ...mapActions(['searchInput','searchResultsCounter']),
-        handleSearchInput(e){
-            this.searchInput(e.target.value);
-          
+        ...mapActions(['searchInput','searchResultsCounter','noResults']),
+        handleSearchInput(e){                                                       // Returns search results on Enter key press
+
+            if(e.key === 'Enter'){
+
+                this.searchInput(e.target.value);                                   // sets noResults in store state to true or false
+                if(this.getFilteredHouses.length < 1){
+                    this.noResults(true);
+                }
+                else if (this.getFilteredHouses.length > 0){
+                    this.noResults(false);
+                }
+            }
+            if((e.key === 'Backspace' || 'Delete') && e.target.value === ''){       // Returns all results once input field is empty
+                this.searchInput(e.target.value);
+            }
             
-        },  
+        },
+      
     },
-
-    // computed: {
-        
-    //     getSearchResultsCounter(){
-    //         console.log('getter triggered')
-    //         console.log(this.$store.getters.getSearchResultsCounter)
-    //         return this.$store.getters.getSearchResultsCounter},
-
-    // },
-
    
 }
 
@@ -50,6 +54,11 @@ export default {
     border-radius: 6px;
     }
 
+    #resultsCounter{
+        flex: 1;
+        margin-left: 1rem;
+        font-size: 0.8rem;
+    }
 </style> 
 
 

@@ -8,7 +8,7 @@
     </div>
       <div class = 'spacingSearchbar'>
       <SearchBar/>
-      <p>test</p>
+      
       
       <div>
         <button id = 'btnleft' class = 'toggleBtn left' :class = '{toggleBtnActive: btnLeftActive }' @click='handleBtnToggle'>Price</button>
@@ -17,7 +17,7 @@
       </div>
 
     <!-- Houses list / todo: add v-for and data handling -->
-    <div> 
+    <div v-if = 'getNoResults === false'> 
       <HouseOverviewTile 
         v-for="house in getFilteredHouses"
         :key= "house.id"
@@ -29,9 +29,12 @@
         :numberOfBathrooms = 'house.rooms.bathrooms'
         :surfaceArea = 'house.size' 
         :image = 'house.image'
-        :id = 'house.id'/>
-        
-     
+        :id = 'house.id'/> 
+    </div>
+    <div v-else-if = 'getNoResults'>
+      
+      <img src="../assets/img_empty_houses@2x.png" alt="">
+      <p>No results found.<br/> Please try another keyword.</p>
     </div>
   </div>
 </template>
@@ -51,15 +54,24 @@ export default {
 
   data(){
     return{
-    btnLeftActive: true,
-    btnRightActive: false
+    btnLeftActive: false,
+    btnRightActive: false,
+    
     }},
   
 
-  computed: mapGetters(['getFilteredHouses']),
+  computed: {
+  
+  ...mapGetters(['getFilteredHouses', 'getNoResults']),
+  
+ 
+
+  },
        
   methods: {
     ...mapActions(['fetchHouses', 'sortingToPrice', 'sortingToSize']),
+
+
 
     handleBtnToggle(e){
       console.log(e.target.id)
@@ -77,7 +89,7 @@ export default {
   
   created(){
     this.fetchHouses();
-  
+    
   },
 
 

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import AboutPage from '../views/AboutPage.vue'
 import CreateListingPage from '../views/CreateListingPage.vue'
-import EditListingPage from '../views/EditListingPage.vue'
+
 import HouseDetailsPage from '../views/HouseDetailsPage.vue'
 import HousesOverviewPage from '../views/HousesOverviewPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
@@ -22,7 +22,7 @@ const routes = [
   {
     path: '/edit-listing/:id',
     name: 'editListingPage',
-    component: EditListingPage,
+    component: CreateListingPage,
     props: true
   },
   {

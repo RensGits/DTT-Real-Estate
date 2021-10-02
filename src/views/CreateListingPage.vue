@@ -1,7 +1,8 @@
 <template>
       <div>
         <BackToHome/>
-        <CreateListingForm/>
+       
+        <CreateListingForm isNewListing = 'isNewListing'/>
       </div>
 </template>
 
@@ -11,7 +12,8 @@ import CreateListingForm from '../components/Listing/CreateListingForm.vue'
 import BackToHome from '../components/BackToHome.vue'
 
 export default {
-    
+    name: 'createListingForm',
+    props: ['isNewListing'],
     components: {
         CreateListingForm,
         BackToHome
