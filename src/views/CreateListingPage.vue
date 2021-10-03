@@ -1,26 +1,26 @@
 <template>
-      <div>
+    <div>
         <BackToHome/>
-       
-        <CreateListingForm isNewListing = 'isNewListing'/>
-      </div>
+        <CreateListingForm/>
+    </div>
 </template>
 
 <script>
 
-import CreateListingForm from '../components/Listing/CreateListingForm.vue'
 import BackToHome from '../components/BackToHome.vue'
+import CreateListingForm from '../components/Listing/CreateListingForm.vue'
+
 
 export default {
-    name: 'createListingForm',
-    props: ['isNewListing'],
-    components: {
-        CreateListingForm,
-        BackToHome
-    }
-}
+    components:{
+       BackToHome,
+       CreateListingForm
+    },
 
+   
+}
 </script>
+
 
 <style>
  

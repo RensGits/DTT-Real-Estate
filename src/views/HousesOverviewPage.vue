@@ -31,10 +31,9 @@
         :image = 'house.image'
         :id = 'house.id'/> 
     </div>
-    <div v-else-if = 'getNoResults'>
-      
-      <img src="../assets/img_empty_houses@2x.png" alt="">
-      <p>No results found.<br/> Please try another keyword.</p>
+    <div v-else-if = 'getNoResults' class = 'getNoResultsContainer'>
+      <img class = 'getNoResultsImage' src="../assets/img_empty_houses@2x.png" alt="">
+      <p class = 'p3'>No results found.<br/> Please try another keyword.</p>
     </div>
   </div>
 </template>
@@ -88,9 +87,9 @@ export default {
     },
   
   created(){
-    this.fetchHouses();
-    
+    this.fetchHouses();    
   },
+ 
 
 
   
@@ -106,7 +105,7 @@ export default {
   align-items: center;
 }
 
-.spacingPageTitle{ margin: 1.7rem 0;}
+.spacingPageTitle{ margin: 1.2rem 0;}
 
 .spacingSearchbar{ margin: 1.4rem 0}
 
@@ -143,10 +142,21 @@ export default {
   border-radius: 0 7px 7px 0;
 }
 
-.resultsCounter{
-  flex: 1;
-  padding-left: 1rem;
-  font-size: 0.7rem
+
+.getNoResultsContainer{
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  width: 100% ;
+  padding: 10%;
+  text-align: center;
+
+  
+}
+
+.getNoResultsImage{
+  width: 25rem;
+  margin-bottom: 2rem;
 }
 
 </style>

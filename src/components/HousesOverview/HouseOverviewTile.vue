@@ -4,15 +4,15 @@
           <img id = "overviewTileImage" :src='image' alt="">
           <div id = 'overviewTileMiddle'>
               <h2>{{adress}}</h2>
-              <h3>${{price}}</h3>
-              <p class = 'light'>{{postalCode}}, {{city}}</p>
-              <div id = 'iconsContainer'>
+              <h3>€ {{price}}</h3>
+              <p class = 'textTertairy'>{{postalCode}}, {{city}}</p>
+              <div class = 'iconsContainer'>
                   <img class = 'iconSmall' src = '../../assets/ic_bed.png' alt = ''/>
-                  <p class = 'marginRight04'>{{numberOfBedrooms}}</p>
+                  <p>{{numberOfBedrooms}}</p>
                   <img class = 'iconSmall' src = '../../assets/ic_bath.png' alt = ''/>
-                  <p class = 'marginRight04'>{{numberOfBathrooms}}</p>
+                  <p>{{numberOfBathrooms}}</p>
                   <img class = 'iconSmall' src = '../../assets/ic_size.png' alt = ''/>
-                  <p class = 'marginRight04'>{{surfaceArea}} m2</p>
+                  <p>{{surfaceArea}} m2</p>
               </div>
           </div>
       </div>
@@ -73,21 +73,26 @@ export default {
         height: 100%;
         width: 90%;
         padding: 1rem;
+        
     }
 
    
 
 
     #overviewTileMiddle{
-        min-width: 20%;
+        display:flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-width: 18%;
+        height: 80%;
+        
     }
 
     #overviewTileRight{
         display:flex;
-        height: 20%;
-        width: 9em;
+        width: 6rem;
         align-self: start;
-        padding: 2rem;
+        padding: 1.6rem;
         align-items: center;
         justify-content: space-between;
     }
@@ -95,26 +100,12 @@ export default {
   
 
     #overviewTileImage{
+      
         width: 9rem;
         height: 9rem;
         margin-right: 1.5rem;
         border-radius: 6px;
     }
-
-    
-    .iconSmall{
-      
-        margin-right: 0.5rem;
-        height: 20%;
-        
-    }
-   
-    #iconsContainer{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
 
     .clickableIcon:hover{
         cursor: pointer;

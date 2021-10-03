@@ -2,81 +2,168 @@
     <h1 v-if="listingData.id === undefined">Create new listing</h1>
     <h1 v-if="listingData.id != undefined">Edit listing</h1>
     <form class = 'form' @submit.prevent = 'handleSubmit' enctype="multipart/form-data">
+        
+       <!-- Street name input field -->
+
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="streetName">Street name*</label>
-            <input class = 'inputField' type="text" id = 'streetName'  v-model = "listingData.streetName" @input ="v$.listingData.streetName.$touch">
+            
+            <input 
+                :class = "[v$.listingData.streetName.$error ? 'inputField inputFieldError' : 'inputField']" 
+                type="text" 
+                id = 'streetName'  
+                v-model = "listingData.streetName" 
+                @input ="v$.listingData.streetName.$touch" 
+                placeholder="Enter the street name">
+            
             <span class = 'fieldError' v-if="v$.listingData.streetName.required.$invalid && v$.listingData.streetName.$dirty">
                 This is a required field.
             </span>
         </div>
+
+        
+
         <div class = 'inputFieldContainerWrapper'>
+
+            <!-- House number input field -->
+
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="houseNumber">House number*</label>
-                <input class = 'inputField' type="text" id = 'houseNumber'  v-model = "listingData.houseNumber" @input ="v$.listingData.houseNumber.$touch">
-            <span class = 'fieldError' v-if="v$.listingData.houseNumber.required.$invalid && v$.listingData.houseNumber.$dirty">
-                This is a required field.
-            </span>
-            <span class = 'fieldError' v-if="v$.listingData.houseNumber.numeric.$invalid && v$.listingData.houseNumber.$dirty">
-                Please fill in a numeric value.
-               
-            </span>
+                
+                <input 
+                    :class = "[v$.listingData.houseNumber.$error ? 'inputField inputFieldError' : 'inputField']" 
+                    type="text" 
+                    id = 'houseNumber'  
+                    v-model = "listingData.houseNumber" 
+                    @input ="v$.listingData.houseNumber.$touch" 
+                    placeholder="Enter house number">
+
+                <span class = 'fieldError' v-if="v$.listingData.houseNumber.required.$invalid && v$.listingData.houseNumber.$dirty">
+                    This is a required field.
+                </span>
+                <span class = 'fieldError' v-if="v$.listingData.houseNumber.numeric.$invalid && v$.listingData.houseNumber.$dirty">
+                    Please fill in a numeric value.
+                
+                </span>
             </div>
+
+            <!-- Addition input field -->
+
             <div class = 'inputFieldContainer'>
-                <label class = 'inputFieldHeader' for="addition">Addition (optional)</label>
-                <input class = 'inputField' type="text" id = 'addition' v-model = "listingData.numberAddition">
+                <label class = 'inputFieldHeader' for="addition" >Addition (optional)</label>
+                <input class = 'inputField' type="text" id = 'addition' v-model = "listingData.numberAddition" placeholder="e.g. A">
             </div>
         </div>
+
+        <!-- Postal code input field -->
+
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="postalCode">Postal Code*</label>
-            <input class = 'inputField' type="text" id = 'postalCode'  v-model = "listingData.zip" @input ="v$.listingData.zip.$touch">
+            
+            <input 
+                :class = "[v$.listingData.zip.$error ? 'inputField inputFieldError' : 'inputField']" 
+                type="text" 
+                id = 'postalCode'  
+                v-model = "listingData.zip" 
+                @input ="v$.listingData.zip.$touch" 
+                placeholder="e.g. 1000 AA">
+
             <span class = 'fieldError' v-if="v$.listingData.zip.required.$invalid && v$.listingData.zip.$dirty">
                 This is a required field.
             </span>
         </div>
+
+        <!-- City input field -->
+
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="city">City</label>
-            <input class = 'inputField' type="text" id = 'city'  v-model = 'listingData.city' @input ="v$.listingData.city.$touch">
+            
+            <input 
+                :class = "[v$.listingData.city.$error ? 'inputField inputFieldError' : 'inputField']" 
+                type="text" 
+                id = 'city'  
+                v-model = 'listingData.city' 
+                @input ="v$.listingData.city.$touch" 
+                placeholder="e.g. Utrecht">
+
             <span class = 'fieldError' v-if="v$.listingData.city.required.$invalid && v$.listingData.city.$dirty">
                 This is a required field.
             </span>
             
         </div>
 
+        <!-- Picture upload field -->
+
         <div class = 'inputFieldContainer'>
-            <label class = 'inputFieldHeader' for="uploadPicuture">Upload picture (PNG or JPG)*</label>
+            <p>Upload picture (PNG or JPG)*</p>
+            <label class = 'inputFieldHeader' for="uploadPicture">
+
+                <div v-if= "populated" :class = "populated ? 'populatedUploadImageWrapper' : 'uploadImageContainer' ">
+                    <div class = 'populatedUploadImageContainer'>
+                        <img class = 'populatedUploadImage' :src = "uploadImagePopulatedUrl" alt="" /> 
+                    </div>
+                    <img class = 'clearIcon' src = '../../assets/ic_clear_white.png' alt='' @click="handlePopulated"/>
+                </div>
+                 <div v-else-if= "!populated" :class = "populated ? 'uploadImageContainerPopulated' : 'uploadImageContainer' ">
+                    <img class = 'uploadImagePlus' src = "../../assets/ic_upload@3x.png" alt="" /> 
+                </div>
+     
+            </label>
             <input type="file" id="uploadPicture" @change = 'handleFileUpload' accept="image/*"/>
-            <img scr = ""/>
-            <span class = 'fieldError' v-if="formError && !hasFile">
+            <span class = 'fieldError' v-if="formErrorFile && !listingData.hasFile" >
                 Please upload an Image
             </span>
         </div>
+
+        <!-- Price input field -->
+
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="price">Price*</label>
-            <input class = 'inputField' type="text" id = 'price'  v-model = 'listingData.price' @input ="v$.listingData.price.$touch">
+            
+            <input 
+                :class = "[v$.listingData.price.$error ? 'inputField inputFieldError' : 'inputField']" 
+                type="text" 
+                id = 'price'  
+                v-model = 'listingData.price' 
+                @input ="v$.listingData.price.$touch" 
+                placeholder="e.g. €150.000 ">
+
             <span class = 'fieldError' v-if="v$.listingData.price.required.$invalid && v$.listingData.price.$dirty">
                 This is a required field.
-               
             </span>
             <span class = 'fieldError' v-if="v$.listingData.price.numeric.$invalid && v$.listingData.price.$dirty">
                 Please fill in a numeric value.
-               
             </span>
         </div>
+
          <div class = 'inputFieldContainerWrapper'>
+            
+            <!-- Size input field -->
+
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="size">Size*</label>
-                <input class = 'inputField' type="text" id = 'size'  v-model = 'listingData.size' @input ="v$.listingData.size.$touch">
+                <input 
+                    	:class = "[v$.listingData.size.$error ? 'inputField inputFieldError' : 'inputField']" 
+                        type="text" 
+                        id = 'size'  
+                        v-model = 'listingData.size' 
+                        @input ="v$.listingData.size.$touch" 
+                        placeholder="e.g. 60m2">
+
             <span class = 'fieldError' v-if="v$.listingData.size.required.$invalid && v$.listingData.size.$dirty">
                 This is a required field.
             </span>
             <span class = 'fieldError' v-if="v$.listingData.size.numeric.$invalid && v$.listingData.size.$dirty">
-                Please fill in a numeric value.
-               
+                Please fill in a numeric value. 
             </span>
             </div>
+
+            <!-- Garage input field -->
+
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="garage">Garage*</label>
-                <select class = 'inputField' type="text" id = 'garage'  v-model = 'listingData.hasGarage'  @input ="v$.listingData.hasGarage.$touch">
+                <select :class = "[v$.listingData.hasGarage.$error ? 'inputField inputFieldError' : 'inputField']" type="text" id = 'garage'  v-model = 'listingData.hasGarage'  @input ="v$.listingData.hasGarage.$touch" aria-placeholder= "Select" > 
+                    <option value = '' disabled hidden selected><p class = 'selectPlaceholder'>Select</p> </option>
                     <option value='true'>yes</option>
                     <option value='false'>no</option>
                 </select>
@@ -85,33 +172,55 @@
                 </span>
             </div>
         </div>
+
         <div class = 'inputFieldContainerWrapper'>
+            
+            <!-- Bedrooms input field -->
+
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="bedrooms">BedRooms*</label>
-                <input class = 'inputField' type="text" id = 'bedrooms'  v-model = 'listingData.bedrooms'  @input ="v$.listingData.bedrooms.$touch">
+                <input 
+                    :class = "[v$.listingData.bedrooms.$error ? 'inputField inputFieldError' : 'inputField']" 
+                    type="text" 
+                    id = 'bedrooms'  
+                    v-model = 'listingData.bedrooms'  
+                    @input ="v$.listingData.bedrooms.$touch" 
+                    placeholder="Enter amount">
+
             <span class = 'fieldError' v-if="v$.listingData.bedrooms.required.$invalid && v$.listingData.bedrooms.$dirty">
                 This is a required field.
             </span>
             <span class = 'fieldError' v-if="v$.listingData.bedrooms.numeric.$invalid && v$.listingData.bedrooms.$dirty">
                 Please fill in a numeric value.
-               
             </span>
             </div>
+
+            <!-- Bathrooms input field -->
+            
             <div class = 'inputFieldContainer'>
                 <label class = 'inputFieldHeader' for="bathrooms">Bathrooms*</label>
-                <input class = 'inputField' type="text" id = 'bathrooms'  v-model = 'listingData.bathrooms'  @input ="v$.listingData.bathrooms.$touch">
+                <input :class = "[v$.listingData.bathrooms.$error ? 'inputField inputFieldError' : 'inputField']" type="text" id = 'bathrooms'  v-model = 'listingData.bathrooms'  @input ="v$.listingData.bathrooms.$touch" placeholder="Enter amount">
             <span class = 'fieldError' v-if="v$.listingData.bathrooms.required.$invalid && v$.listingData.bathrooms.$dirty">
                 This is a required field.
             </span>
             <span class = 'fieldError' v-if="v$.listingData.bathrooms.numeric.$invalid && v$.listingData.bathrooms.$dirty">
                 Please fill in a numeric value.
-               
             </span>
             </div>
         </div>
+
+        <!-- Construction year input field --> 
+
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="constructionYear">Construction year*</label>
-            <input class = 'inputField' type="text" id = 'constructionYear'  v-model = 'listingData.constructionYear' @input ="v$.listingData.constructionYear.$touch">
+            <input 
+                :class = "[v$.listingData.constructionYear.$error ? 'inputField inputFieldError' : 'inputField']" 
+                type="text" 
+                id = 'constructionYear'  
+                v-model = 'listingData.constructionYear' 
+                @input ="v$.listingData.constructionYear.$touch" 
+                placeholder="e.g. 1990">
+
             <span class = 'fieldError' v-if="v$.listingData.constructionYear.required.$invalid && v$.listingData.constructionYear.$dirty">
                 This is a required field.
             </span>
@@ -124,47 +233,49 @@
             
             
         </div>
+
+        <!-- Description input field -->
+
         <div class = 'inputFieldContainer'>
             <label class = 'inputFieldHeader' for="description">Description*</label>
-            <input class = 'inputField' type="text" id = 'description'  v-model = 'listingData.description'  @input ="v$.listingData.description.$touch">
+            <textarea   :class = "[v$.listingData.description.$error ? 'inputField inputFieldError' : 'inputField' ]" 
+                        type="text" 
+                        id = 'description'  
+                        v-model = 'listingData.description'  
+                        @input ="v$.listingData.description.$touch" 
+                        placeholder="Enter description">
+            </textarea>
             <span class = 'fieldError' v-if="v$.listingData.description.required.$invalid && v$.listingData.description.$dirty">
                 This is a required field.
             </span>
         </div>
-        <input class = 'postButton' type = 'submit' value = 'POST'>
+        <button class = 'postButton' type = 'submit' >POST</button>
         
         
 
     </form>
-        <div class = 'formModal' v-if = "modalVisible">
-            <div v-if="formSubmitted">
+
+        <!-- Form submition modal -->
+
+        <div class = 'modal' v-if = "modalVisible">
+            <div class = 'innerModal' v-if="formSubmitted">
                 <h2>Your listing has been succesfully posted!</h2>
-                <button class = 'postButton' @click="$router.push('/details/' + getRecentlyUploadedId)">See my listing</button>
+                <button @click="$router.push('/details/' + getRecentlyUploadedId)">See my listing</button>
             </div>
             <div v-if="formError">
                 <h2>There seems to be a problem...</h2>
                 <p>Some fields are not filled in correctly, please go back and check the field requirements.</p>
-            </div>
-            
-            
-            
+            </div>  
         </div>
-            
-        <div class = 'modalOverlay' v-if = "modalVisible" @click="modalVisible = false"></div>
+        <div class = 'modalOverlay' v-if = "modalVisible" @click="modalVisible = false , formError = false"></div>
+
 </template>
-
-
-
-
-
 
 <script>
 
 import{mapActions, mapGetters} from 'vuex'
 import useValidate from '@vuelidate/core'
 import { required, numeric, minValue } from '@vuelidate/validators'
-
-
 
 export default {
 
@@ -174,9 +285,6 @@ export default {
         
         return{
             
-           
-            
-
             listingData: {
                 price: '',
                 bedrooms: '',
@@ -191,17 +299,19 @@ export default {
                 hasGarage: '',
                 description: '',
                 file: null,
-                id: this.$route.params.id
+                id: this.$route.params.id,
+                hasFile: false,
             },
 
             v$: useValidate(),
-            hasFile: false,
+            populated: false,
+          
+            uploadImagePopulatedUrl: '', 
             formAboutToSubmit: false,
             formError: false,
+            formEroorFile: false,
             formSubmitted: false,
             modalVisible: false,
-            
-            
         }
     },
 
@@ -227,7 +337,10 @@ export default {
         },
 
     computed:{
-        ...mapGetters(['getRecentlyUploadedId'])
+        ...mapGetters(['getRecentlyUploadedId', 'getHouseById']),
+        handlePopulated(){
+            this.populated = !this.populated
+        }
     },
 
     methods: {
@@ -235,30 +348,27 @@ export default {
         handleSubmit(){
             this.v$.$validate()
             this.modalVisible = true   
-            if(!this.v$.$error && this.hasFile){
-                console.log('form accepted')
-                    console.log(this.listingData)
-                    this.postHouse(this.listingData)
-                    this.formSubmitted = true
+            if(!this.v$.$error && this.listingData.hasFile){
+                this.postHouse(this.listingData)
+                this.formSubmitted = true
             }
             else {
                 console.log('form declined')
-                this.formError = true 
+                this.formError = true
+                this.formErrorFile = true 
             }
-        
-       
         },
         handleFileUpload(e){
-    
-            this.hasFile = true
+            this.listingData.hasFile = true
             this.listingData.file = e.target.files[0]
         },
-     
     },
 
     mounted(){
        
         if(this.listingData.id != undefined){ 
+            this.populated = true
+            this.listingData.hasFile = true
             let data = this.$store.getters.getHouseById(this.listingData.id)
             this.listingData.price = data.price
             this.listingData.bedrooms = data.rooms.bedrooms
@@ -273,10 +383,9 @@ export default {
             this.listingData.hasGarage = data.hasGarage
             this.listingData.description = data.description
             this.listingData.file = data.file
+            this.uploadImagePopulatedUrl = data.image
         } 
-  },
-     
-  
+  }
 }
 </script>
 
@@ -284,20 +393,27 @@ export default {
      .form{
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: repeat(4, 8rem) 12rem repeat(4, 8rem) 12rem;
+        grid-template-rows: repeat(4, 6rem) 12rem repeat(4, 6rem) 12rem;
         gap: 2rem;
         width: 25rem;
-      
     }
+
     .inputField{
-        
         background-color: white;
         border-style: none;
         border-radius: 6px;
         font-size: 0.8rem; 
-        height: 60%;
-        
+        height: 3rem;
     }
+
+    .inputFieldError{
+        border: 1px solid rgba(230, 86, 64, 0.905); 
+    }
+
+    .inputFieldError::placeholder{
+        color:  rgba(230, 86, 64, 0.905)
+    }
+
     .fieldError{
         padding: 0;
         margin: 0;
@@ -323,24 +439,80 @@ export default {
     }
 
     .inputFieldHeader{
-        font-weight: 500;
+        font-size: 14px;
+        font-weight: 600;
         margin-bottom: 0.5rem
     }
 
-    .uploadPictureBox{
-        display:none;
+    input[type="file"] {
+        display: none;
+    }
+
+    .fieldError{
+        color: rgba(230, 86, 64, 0.905);
+        margin-top: 0.5rem;
+    }
+
+    .uploadImageContainer{
         display: grid;
-        justify-content: center;
-        align-items: center;
         width: 8rem;
         height: 8rem;
-        border-style:dashed;
-        border-color: darkgray;
-        border-width: 2px;
-        border-spacing: 60px;
-        font-size: 4rem;
-        font-weight: 400;
-        
+        justify-content: center;
+        justify-items: center;
+        align-items: center;
+        background-image: url('../../assets/uploadBorder.png');
+        background-repeat: no-repeat;
+        background-size: 8rem 8rem;
+    }
+
+    .uploadImageContainer:hover{
+        cursor: pointer;  
+    }
+
+    
+    .uploadImagePlus{
+        width: 40%;
+        height: auto;
+    }
+
+    .uploadImagePlus:hover{
+        width: 45%;
+    }
+
+    .populatedUploadImageWrapper{
+        display: grid;
+        justify-content: left;
+        align-items: center;
+        position: relative; 
+        width: 10rem;
+        height: 10rem;
+        overflow: hidden;
+        border-radius: 7px; 
+    }
+
+    .populatedUploadImageContainer{
+        width: 8rem;
+        height: 8rem;
+        object-fit: cover;
+        overflow:hidden;
+        border-radius: 7px; 
+    }
+    
+    .populatedUploadImage{
+        min-width: 8rem;
+        min-height: 8rem;
+        max-width: 12rem;   
+    }
+
+    .clearIcon{
+        position: absolute;
+        z-index: 1100;
+        width: 20%;
+        height: auto;
+        top:2%;  
+        right:11%;
+        overflow: overlay;
+        cursor: pointer;
     }
 
     .postButtonContainer{
@@ -351,41 +523,9 @@ export default {
 
     .postButton{
         grid-column: 2;
-        background-color: rgb(230,85,64);
-        color: white;
-        border-style: none;
-        border-radius: 7px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        height: 2.4rem;
-        width: 11rem;
     }
 
-    .formModal{
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%,-50%);
-        z-index: 1000;
-        width: 30rem;
-        height: auto;
-        padding: 2rem;
-        background-color: white;
-        border-radius: 8px;
-        color: black;
-        text-align: center;
-       
-    }
-
-    .modalOverlay{
-        position: fixed;
-        height: 100%;
-        top: 0;
-        left:0;
-        right: 0;
-        background-color: rgba(0,0,0,0.2);
-        z-index: 900;
-    }
+    
 
 
 </style>

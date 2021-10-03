@@ -120,7 +120,7 @@ export default createStore({
        )},
 
 
-      async postHouse({commit},payload){                                   // posts / edits house to API   ---- POST -----
+      async postHouse({commit, dispatch},payload){                                   // posts / edits house to API   ---- POST -----
       
         
         var FormData = require('form-data');
@@ -155,7 +155,6 @@ export default createStore({
         .then(function (response) {
           console.log(JSON.stringify(response.data));
           idFromResponse = response.data.id
-          // commit('setRecentlyUploadedId', idFromResponse)
         })
         .catch(function (error) {
           console.log(error);
@@ -165,9 +164,11 @@ export default createStore({
           var dataPicture = new FormData();
           dataPicture.append('image', image);
 
+          console.log(payload.id)
+
           var configPicture = {
             method: 'post',
-            url: payload.id === undefined ?  `http://localhost:8080/api/houses/${idFromResponse}/upload` :  `http://localhost:8080/api/houses/${payload.id}` ,
+            url: payload.id === undefined ?  `http://localhost:8080/api/houses/${idFromResponse}/upload` :  `http://localhost:8080/api/houses/${payload.id}/upload` ,
                               // check wether image comes from a new listing or an edited listing
             headers: { 
               'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV', 
@@ -184,11 +185,21 @@ export default createStore({
             console.log(error);
               });
             })
+          .then(function(){
+            dispatch('fetchHouses')
+            if(payload.id === undefined){
+              commit('setRecentlyUploadedId', idFromResponse)
+            }
+            else{
+              commit('setRecentlyUploadedId', payload.id)
+            }
+            
+          })
           },
 
 
 
-      async deleteHouseAPI({},id){                     // deletes house from API   ---- POST ---
+      async deleteHouseAPI({dispatch},id){                     // deletes house from API   ---- POST ---
           console.log('post method reached')
           console.log('id :')
           console.log(id)
@@ -201,14 +212,21 @@ export default createStore({
             'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV'
           }
         };
+          
+          let idStore = ''
 
           axios(config)
           .then(function (response) {
             console.log(JSON.stringify(response.data))
             console.log(`House with ID: ${id} deleted`)
+         
+            
           })
           .catch(function (err) {
             console.log(err);
+          })
+          .then(function(){
+              dispatch('fetchHouses')
           })
         },
 
@@ -280,6 +298,10 @@ export default createStore({
       },
       setRecentlyUploadedId(state, idFromResponseFromActions){
         state.recentlyUploadedId = idFromResponseFromActions
+      },
+      setRemoveHouseById(state, houseByIdFromActions){
+        console.log('mutation reached')
+        state.houses = state.houses.splice(houseByIdFromActions,1)
       }
     },
 
