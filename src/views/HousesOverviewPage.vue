@@ -1,42 +1,59 @@
 <template>
   <div>
+    <div class = 'overviewPageContainer'>
 
-    <!-- Page title, searchbar & buttons -->
-    <div class = 'spacingPageTitle'>
-      <h1>Houses</h1>
-      <button id = 'createNewBtn' @click="$router.push('create-listing')">+ CREATE NEW</button>
-    </div>
-      <div class = 'spacingSearchbar'>
-      <SearchBar/>
+      <!-- Page title, searchbar & filter buttons -->
       
-      
-      <div>
-        <button id = 'btnleft' class = 'toggleBtn left' :class = '{toggleBtnActive: btnLeftActive }' @click='handleBtnToggle'>Price</button>
-        <button id = 'btnright' class = 'toggleBtn right' :class = '{toggleBtnActive: btnRightActive }' @click='handleBtnToggle'>Size</button>
+      <div class = 'pageTitleContainer'>
+        <h1 id = 'pageTitle'>Houses</h1>
+        <button id = 'createNewButton' @click="$router.push('create-listing')">+ CREATE NEW</button>
+        <img id = 'createNewButtonMobile' src="../assets/ic_plus_grey.png" alt=""  @click="$router.push('create-listing')">
       </div>
+      <div id = 'searchAndFilters'>
+        <SearchBar/>
+        <div id = 'ascendingDescendingIcons'>
+          <span v-if = 'descending' class="material-icons sortingIcon" @click='handleSortingToggle'>keyboard_double_arrow_down</span>
+          <span v-if = '!descending' class="material-icons sortingIcon" @click='handleSortingToggle'>keyboard_double_arrow_up</span>
+        </div>
+        <div class = 'filterButtons'>
+          <button id = 'btnleft' class = 'toggleBtn left' :class = '{toggleBtnActive: btnLeftActive }' @click='handleButtonToggle'>Price</button>
+          <button id = 'btnright' class = 'toggleBtn right' :class = '{toggleBtnActive: btnRightActive }' @click='handleButtonToggle'>Size</button>
+        </div>
       </div>
 
-    <!-- Houses list / todo: add v-for and data handling -->
-    <div v-if = 'getNoResults === false'> 
-      <HouseOverviewTile 
-        v-for="house in getFilteredHouses"
-        :key= "house.id"
-        :adress = 'house.location.street'
-        :price = 'house.price'
-        :postalCode = 'house.location.zip '
-        :city = 'house.location.city'
-        :numberOfBedrooms = 'house.rooms.bedrooms'
-        :numberOfBathrooms = 'house.rooms.bathrooms'
-        :surfaceArea = 'house.size' 
-        :image = 'house.image'
-        :id = 'house.id'/> 
+      <!-- House overview tiles -->
+      
+      <div v-if = 'getNoResults === false'> 
+        
+          <HouseOverviewTile
+            class = 'enter'
+            v-for="house in getFilteredHouses"
+            :key= "house.id"
+            :adress = 'house.location.street'
+            :price = getFormattedPrice(house.price)
+            :postalCode = 'house.location.zip '
+            :city = 'house.location.city'
+            :numberOfBedrooms = 'house.rooms.bedrooms'
+            :numberOfBathrooms = 'house.rooms.bathrooms'
+            :surfaceArea = 'house.size' 
+            :image = 'house.image'
+            :id = 'house.id'/>
+        
+      </div>
+
+      <!-- Displays when serach returns no results  -->
+
+      <div v-else-if = 'getNoResults' class = 'getNoResultsContainer'>
+        <img id = 'getNoResultsImage' src="../assets/img_empty_houses@2x.png" alt="">
+        <p class = 'p3'>No results found.<br/> Please try another keyword.</p>
+      </div>
+
+      <div class = 'spacer'></div>
     </div>
-    <div v-else-if = 'getNoResults' class = 'getNoResultsContainer'>
-      <img class = 'getNoResultsImage' src="../assets/img_empty_houses@2x.png" alt="">
-      <p class = 'p3'>No results found.<br/> Please try another keyword.</p>
-    </div>
+    
   </div>
 </template>
+
 
 <script>
 
@@ -53,63 +70,74 @@ export default {
 
   data(){
     return{
-    btnLeftActive: false,
-    btnRightActive: false,
-    
-    }},
-  
+      btnLeftActive: false,
+      btnRightActive: false,
+      descending: false
+    }
+  },
 
   computed: {
-  
-  ...mapGetters(['getFilteredHouses', 'getNoResults']),
-  
- 
-
+  ...mapGetters(['getFilteredHouses', 'getNoResults', 'getFormattedPrice']),
   },
        
   methods: {
-    ...mapActions(['fetchHouses', 'sortingToPrice', 'sortingToSize']),
+    ...mapActions(['fetchHouses', 'sortingToPriceAsc', 'sortingToSizeAsc', 'sortingToSizeDesc','sortingToPriceDesc']),
 
-
-
-    handleBtnToggle(e){
-      console.log(e.target.id)
+    handleButtonToggle(e){
       if(e.target.id === 'btnright'){
         this.btnLeftActive = false;
         this.btnRightActive = true;
-        this.sortingToSize();
+        this.handleSorting();
       }
       if(e.target.id === 'btnleft'){
         this.btnLeftActive = true;
         this.btnRightActive = false;
-        this.sortingToPrice();
-      }}
+        this.handleSorting();
+      }
     },
+
+    handleSortingToggle(){
+      this.descending = !this.descending
+      this.handleSorting();
+    },
+
+    handleSorting(){
+      if(this.btnRightActive && !this.descending){
+        this.sortingToSizeAsc();
+      }
+      if(this.btnLeftActive && !this.descending){
+        this.sortingToPriceAsc();
+      }
+      if(this.btnRightActive && this.descending){
+        this.sortingToSizeDesc();
+      }
+      if(this.btnLeftActive && this.descending){
+        this.sortingToPriceDesc();
+      }
+      
+    }
+    
+  },
   
   created(){
     this.fetchHouses();    
   },
- 
+}
 
-
-  
-  }
 </script>
+
 
 <style>
 
-
-.spacingPageTitle, .spacingSearchbar {
+ #searchAndFilters {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1.4rem 0
 }
 
-.spacingPageTitle{ margin: 1.2rem 0;}
 
-.spacingSearchbar{ margin: 1.4rem 0}
-
-#createNewBtn{
+#createNewButton{
   background-color: rgb(230,85,64);
   color: white;
   border-style: none;
@@ -118,6 +146,10 @@ export default {
   font-weight: 500;
   height: 2.4rem;
   width: 11rem;
+}
+
+#createNewButtonMobile{
+  display:none;
 }
 
 .toggleBtn{
@@ -134,6 +166,19 @@ export default {
   background-color: rgb(230,85,64);
 }
 
+#ascendingDescendingIcons{
+  display: flex;
+  justify-content: flex-end;
+  color: #c3c3c3;
+  flex: 1;
+}
+
+.sortingIcon{
+  margin-right: 0.7rem;
+  margin-left: 0;
+  cursor: pointer;
+}
+
 .left{
   border-radius: 7px 0 0 7px;
 }
@@ -142,7 +187,6 @@ export default {
   border-radius: 0 7px 7px 0;
 }
 
-
 .getNoResultsContainer{
   display: grid;
   justify-items: center;
@@ -150,13 +194,67 @@ export default {
   width: 100% ;
   padding: 10%;
   text-align: center;
-
-  
 }
 
-.getNoResultsImage{
+#getNoResultsImage{
   width: 25rem;
   margin-bottom: 2rem;
+}
+
+
+
+@media only screen and (max-width: 990px) {
+  #searchAndFilters{
+    display: grid;
+    grid-template-rows: 4rem 4rem auto;
+    grid-template-columns: 100%;
+    width: 100%;
+    justify-items: right;
+  }
+
+  .filterButtons{
+    grid-row: 2;
+    width: 100%;
+  }
+
+ .toggleBtn{
+    width: 50%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  
+  .overviewPageContainer{
+    width: 100%;
+    height: auto;
+    padding: 0 5% ;
+  }
+
+  #pageTitle{
+    flex: 1;
+    text-align: center;
+  }
+
+  #createNewButton{
+    display:none;
+  }
+
+  #createNewButtonMobile{
+    display: block;
+    position: absolute;
+    right: 5%;
+  }
+  #getNoResultsImage{
+    margin-top: 2rem;
+    width: 20rem;
+  }
+}
+
+@media only screen and (max-width: 330px) {
+  #getNoResultsImage{
+    margin-top: 2rem;
+    width: 11rem;
+  }
 }
 
 </style>

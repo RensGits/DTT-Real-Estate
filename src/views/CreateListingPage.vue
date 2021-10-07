@@ -1,27 +1,34 @@
 <template>
     <div>
-        <BackToHome/>
-        <CreateListingForm/>
+        <div id = 'createListingPageContainer'>
+            <BackToHome/>
+            <ListingForm/>
+        </div>
     </div>
 </template>
 
+
 <script>
 
-import BackToHome from '../components/BackToHome.vue'
-import CreateListingForm from '../components/Listing/CreateListingForm.vue'
-
+import BackToHome from '../components/SharedComponents/BackToHome.vue'
+import ListingForm from '../components/Listing/ListingForm.vue'
 
 export default {
     components:{
        BackToHome,
-       CreateListingForm
+       ListingForm
     },
-
-   
 }
+
 </script>
 
 
 <style>
- 
+
+@media only screen and (max-width: 768px){
+    #createListingPageContainer{
+        padding: 5% 5%;
+    }
+}
+
 </style>

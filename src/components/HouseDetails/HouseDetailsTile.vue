@@ -1,10 +1,18 @@
+---------- Individual tile for the HouseDetailsPage ----------
+
 <template>
   <div class = 'detailsTileContainer'>
-      <div class = 'gridRow1'><img class = 'detailsTileImage' :src='house.image' alt=""></div>
+      
+      <div class = 'gridRow1'>
+          <img id = 'detailsTileImage' :src='house.image' alt="">
+      </div>
       <div class = 'gridRow2'>
         
         <h1>{{house.location.street}}</h1>
-        <EditDeleteIcons :id = 'id'/>
+         <div id = 'favoriteToggleContainerDetails'>
+            
+        </div>
+        <EditDeleteIcons :id = 'id' :isMobile = 'isMobile'/>
         
       </div>
       <div class = 'gridRow3'>
@@ -17,10 +25,11 @@
                 </div>
             </div>
             
+
             <div class = 'iconsRow'>
                 <div class = 'iconAndInfoContainer'>
                     <img class = 'iconMedium' src = '../../assets/ic_price.png' alt = ''/>
-                    <p>{{house.price}}</p>
+                    <p>{{price}}</p>
                 </div>
                 <div class = 'iconAndInfoContainer'>
                     <img class = 'iconMedium' src = '../../assets/ic_size.png' alt = ''/>
@@ -50,37 +59,56 @@
       <div class = 'gridRow4'>
           <p class = 'description textSecondary'>{{house.description}}</p>
       </div>
+  
   </div>
+
   
 </template>
 
 <script>
 
-import EditDeleteIcons from '../EditDeleteIcons.vue'
+import EditDeleteIcons from '../SharedComponents/EditDeleteIcons.vue'
+import FavoriteToggle from '../SharedComponents/FavoriteToggle.vue'
 
 
 export default {
 
+    props: ['isMobile'],
+
     data(){
         return{
-            id: this.$route.params.id 
+            id: '', 
+            house: ''
         }
     },
 
     components:{
-        EditDeleteIcons
+        EditDeleteIcons,
+        FavoriteToggle
     },
 
+    
+
     computed: {
-        house(){ // stores getter data in house property
-            return this.$store.getters.getHouseById(this.id);  // gets page specific house data based on id
-        }    
+        price(){
+            return this.$store.getters.getFormattedPrice(this.house.price)
+        }
     },
+
+    created(){
+        this.id = this.$route.params.id
+        this.house = this.$store.getters.getHouseById(this.id)
+    },
+  
     
 }
 </script>
 
 <style scoped>
+
+p{
+    font-size: 0.9rem;
+}
 
 .detailsTileContainer{
     display:grid;
@@ -91,16 +119,13 @@ export default {
     height: auto;
 }
 
-
-
 .gridRow2{
     grid-row: 2;
     display:flex;
     justify-content: space-between;
     width: 100%;
     align-items: center;
-    padding: 2rem 2rem 0.5rem 2rem;
-    
+    padding: 2rem 2rem 0.5rem 2rem;   
 }
 
 .gridRow3{
@@ -111,16 +136,16 @@ export default {
     padding: 0.5rem 0 1rem 2rem;
 }
 
-.gridRow4{
-    
+.gridRow4{ 
     grid-row: 4;
     padding: 0.5rem 4rem 2rem 2rem;
+    font-size:0.85rem;
 }
-.detailsTileImage{
+
+#detailsTileImage{
     object-fit: cover;
     width: 100%;
-    max-height: 100%;
-    
+    max-height: 100%;  
 }
 
 .editDeleteIcons{
@@ -128,13 +153,6 @@ export default {
     height: 100%;
 }
 
-.md-18{
-    font-size: 1rem!important;
-}
-
-p{
-    font-size: 0.9rem;
-}
 
 .description{
     padding: 1rem 0 2rem 0;
@@ -145,17 +163,13 @@ p{
     line-height: 1.5rem;
 }
 
-.gridRow4{
-    font-size:0.85rem;
-}
 
 .iconsRow{
     display: grid;
     grid-auto-flow: column;
     gap: 2rem;
     align-items: center;
-    justify-content: flex-start;
-   
+    justify-content: flex-start;  
 }
 
 .iconAndInfoContainer{
@@ -168,4 +182,38 @@ p{
 .margingRight04{
     margin-right: 0.4rem;
 }
+
+
+@media only screen and (max-width: 768px) {
+    .detailsTileContainer{
+        width: 100%
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    .detailsTileContainer{
+        position: relative;
+        width: 100%;
+    }
+    #detailsTileImage{
+        position: fixed;
+        z-index: 100;
+        min-height: 25rem;
+    }
+
+    .gridRow2,.gridRow3,.gridRow4{
+        background-color:white;
+        z-index: 200;
+    }
+
+    .gridRow3{
+        width: 100%
+    }
+
+    .gridRow2{
+        border-radius: 10px 10px 0 0 
+    }
+}
+
 </style>

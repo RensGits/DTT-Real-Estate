@@ -1,27 +1,49 @@
 <template>
     <div>
-        <BackToHome/>
-        <HouseDetailsTile/>
+        <BackToHome v-if="!isMobile"/>
+        <HouseDetailsTile :isMobile='isMobile'/>
     </div>
 </template>
 
 <script>
 
-import BackToHome from '../components/BackToHome.vue'
+import BackToHome from '../components/SharedComponents/BackToHome.vue'
 import HouseDetailsTile from '../components/HouseDetails/HouseDetailsTile.vue'
 
-
 export default {
+
+    data(){
+        return{
+            isMobile: false
+        }
+    },
+
     components:{
        BackToHome,
        HouseDetailsTile
     },
 
+    methods: {
+        handleResize() {
+            if(window.innerWidth < 768){
+            this.isMobile = true}
+            else this.isMobile = false
+        }
+    },
+
+    created() {
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize(); 
+    },
+
+    destroyed() {
+        window.removeEventListener('resize', this.handleResize);
+    },
+
+    mounted(){
+        console.log(this.isMobile)
+    }
+    
    
 }
 </script>
-
-
-<style>
- 
-</style>

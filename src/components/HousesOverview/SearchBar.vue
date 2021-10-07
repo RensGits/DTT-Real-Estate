@@ -1,8 +1,11 @@
+---------- Searchbar component + results counter ----------
+
 <template>
-        <img class = 'searchBarIconSearch' src="../../assets/ic_search@2x.png" alt="">
-        <img class = 'searchBarIconClear' src= "../../assets/ic_clear@2x.png" alt="" @click="handleSearchClear">
-        <input class = 'searchBar' type = 'text' placeholder="Search for a house" @keyup="handleSearchInput" ref = 'searchBar'/>
-        <p v-if = 'getFilteredHouses.length > 0' class = 'resultsCounter'>{{getFilteredHouses.length}} results found</p>
+        
+        <img id = 'searchBarIconSearch' src="../../assets/ic_search@2x.png" alt="">
+        <img id = 'searchBarIconClear' src= "../../assets/ic_clear@2x.png" alt="" @click="handleSearchClear">
+        <input id = 'searchBar' type = 'text' placeholder="Search for a house" @keyup="handleSearchInput" ref = 'searchBar'/>
+        <h2 v-if = "getFilteredHouses.length > 0 && getCurrentSearchInput != ''" id = 'resultsCounter'>{{getFilteredHouses.length}} results found</h2>
    
 </template>
 
@@ -31,12 +34,14 @@ export default {
             }
             if((e.key === 'Backspace' || 'Delete') && e.target.value === ''){       // Returns all results once input field is empty
                 this.searchInput(e.target.value);
+                this.noResults(false)
             } 
            
         },
         handleSearchClear(){                                                        // Clears search input and returns all results
             this.$refs.searchBar.value = ''
             this.searchInput(this.$refs.searchBar.value)
+            this.noResults(false)
         }
      
     }  
@@ -46,8 +51,8 @@ export default {
 
 <style>
     
-.searchBar{
-    width: 33%;
+#searchBar{
+    width: 35%;
     height: 2.45rem;
     background-color: rgb(233,233,233);
     border-style: none;
@@ -55,27 +60,77 @@ export default {
     padding-left: 3rem;
 }
 
-.searchBar::placeholder{
+#searchBar::placeholder{
     font-family: 'Open Sans', 'sans-serif';
 }
 
-.searchBarIconSearch{
+
+
+#searchBarIconSearch{
     position: absolute;
     height: 1rem;
     left: 21%
 }
 
-.searchBarIconClear{
+#searchBarIconClear{
     position: absolute;
     height: 1rem;
-    left: 38%
+    right: 60%
 }
 
-.resultsCounter{
+#resultsCounter{
     flex: 1;
     margin-left: 1rem;
     font-size: 0.9rem;
 }
+
+@media only screen and (max-width: 990px) {
+      #searchBar{
+        grid-row: 1;
+        width: 100%;
+    }
+
+    #searchBarIconClear{
+        top: 13.5rem;
+        left: 86%;  
+    }
+    #searchBarIconSearch{
+        top: 13.5rem;
+        left: 12%;
+    }
+
+
+}
+@media only screen and (max-width: 768px) {
+  
+
+    #resultsCounter{
+        grid-row: 3;
+        padding-top: 2rem 0;
+    }
+
+    #searchBarIconClear{
+        left: 90%;
+        top: 7rem;
+    }
+
+    #searchBarIconSearch{
+        top: 7rem;
+        left: 8%;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    
+    #searchBarIconClear{
+        left: 86%;  
+    }
+
+}
+
+
+
+
 
 </style> 
 

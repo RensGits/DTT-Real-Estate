@@ -1,14 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
-
 import AboutPage from '../views/AboutPage.vue'
 import CreateListingPage from '../views/CreateListingPage.vue'
-
 import HouseDetailsPage from '../views/HouseDetailsPage.vue'
 import HousesOverviewPage from '../views/HousesOverviewPage.vue'
-import RegisterPage from '../views/RegisterPage.vue'
+import MyListingsPage from '../views/MyListingsPage.vue'
 
 
 const routes = [
+  {
+    path: '/',
+    name: 'housesOverviewPage',
+    component: HousesOverviewPage
+  },
   {
     path: '/about',
     name: 'aboutPage',
@@ -32,19 +35,14 @@ const routes = [
     props: true
   },
   {
-    path: '/',
-    name: 'housesOverviewPage',
-    component: HousesOverviewPage
-  },
-  {
-    path: '/register',
-    name: 'registerPage',
-    component: RegisterPage
+    path: '/my-listings',
+    name: 'myListings',
+    component: MyListingsPage
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(process.env.BASE_URL),  // enables the user to go back to the previous page when pressing back in the browser or mobile
   routes
 })
 

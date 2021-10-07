@@ -1,30 +1,59 @@
 <template>
-  <div id = 'app'>
-    <div id = 'nav'>
-      <div id = 'navItems'>
-        <img src = './assets/DTT_logo_black.svg' alt = ''/>
-        <div id = 'pagesLink'>
-        <router-link to ='/'>Houses</router-link>
-        <router-link to ='/about'>About</router-link>
-        </div>
-        <router-link id = 'registerLink' to = '/register'>Register</router-link>
-        
-      </div> 
-        
-    </div>
+  <div id = 'app' ref = 'app' @scroll = 'handleScroll' >
+    <Nav/>
     <router-view id = 'routerView'/>
+    <div id = 'customScrollIndicatorApp'>
+      <div :style="{'position': 'fixed','height': scrollProgress + '%', 'width': '0.7rem', 'background-color': 'rgb(235,84,64)'}"></div>
+    </div>
+    
   </div>  
 </template>
 
 <script>
 
-
+import Nav from './components/Navigation/NavigationBar.vue'
 
 export default {
+  
   name: 'App',
-  components: {
 
-  }
+  components: {
+    Nav
+  },
+
+  data(){
+    return{
+      scrollProgress : '50'
+    }
+  },
+
+  methods: {
+    handleScroll() {
+            var winScroll = window.scrollY
+            var height = this.$refs.app.clientHeight;
+            var heightBody = document.body.clientHeight
+            var scrolled =  winScroll / (height - heightBody) * 100
+            this.scrollProgress = scrolled
+        }
+  },
+
+  mounted() {
+        window.addEventListener('scroll', this.handleScroll); 
+    
+    },
+
+    beforeDestroyed(){
+        window.removeEventListener('scroll', this.handleScroll); 
+    }
+
+
+
+
+
+
+
+
+
 }
 </script>
 
@@ -43,6 +72,17 @@ export default {
     font-family: "Montserrat", 'sans-serif';
 }
 
+html,body{
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  height: 100vh;
+}
+
 p{
   font-family: "Open Sans", 'sans-serif';
   font-weight: 400;
@@ -58,12 +98,10 @@ p{
   font-size:0.7rem
 }
 
-
 h1{
   font-family: 'Montserrat', 'sans-serif';
   font-size: 1.6rem;
   font-weight: 700;
-  
 }
 
 .h12{
@@ -75,7 +113,6 @@ h2{
   font-size: 1rem;
   font-weight: 700;
   margin: 0.1rem;
-  
 }
 
 h3{
@@ -83,6 +120,21 @@ h3{
   font-size: 0.9rem;
   font-weight: 400;
   margin: 0.1rem;
+}
+
+h4{
+  font-family: 'Open Sans', 'sans-serif';
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgb(235,84,64);
+}
+
+ul{
+  line-height: 2rem;
+}
+
+li{
+  font-size: 0.9rem;
 }
 
 input{
@@ -107,26 +159,39 @@ input::placeholder, textarea::placeholder{
 textarea{
   resize: none;
   height: 100% !important;
-}
-
-textarea{
   padding: 1rem;
 }
 
 
-
+section{
+  padding: 1rem 0;
+}
 
 .material-icons{
   margin-left: 0.7rem;
 }
 
+#customScrollIndicatorApp{
+   position: fixed;
+    right: 0;
+    top: 6rem;
+    bottom: 0;
+    margin-top: -2rem;
+    height: auto;
+    width: 0.7rem;
+    background-color: gray;
+}
 
-html,body{
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
- 
+.sectionTitle{
+  padding: 2% 0;
+  color: rgb(235,84,64);
+}
+
+.pageTitleContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.2rem 0;
 }
 
 .elementPrimary{
@@ -170,9 +235,7 @@ html,body{
 }
 
 
-
 button{
-
   background-color: rgb(230,85,64);
   color: white;
   border-style: none;
@@ -181,13 +244,23 @@ button{
   font-weight: 500;
   height: 2.4rem;
   width: 11rem;
-  }
+}
+
+button:hover{
+  cursor:pointer;
+  color:rgb(225, 225, 225)
+}
 
 
-#app {
-  min-height: 100vh;
+
+#app{
+  min-height: 100vh !important;
   width: 100%;
   background-color: rgb(246,246,246);
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 #routerView{
@@ -199,67 +272,20 @@ button{
   padding-bottom: 3rem;
 }
 
-#nav {
-  display:grid;
-  position: sticky;
-  top:0;
-  min-width: 100%;
-  height: 4.5rem;
-  background-color: rgb(255,255,255);
-  justify-items: center;
-  z-index: 1500;
-}
-
-#navItems{
-  display:flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 60%;
-}
-
-#navItems a {
-  font-family: "Montserrat", sans-serif;
-  font-weight: 500;
-  text-decoration: none;
-  color: rgb(226, 226, 226);
-  margin-left: 5rem;
-}
-
-#navItems a.router-link-exact-active {
-  font-weight: 700;
-  color:black;
-}
-
-#navItems img{
-  width: auto;
-  height: 50%;
-}
-
-#pagesLink{
-  flex:1;
-}
-
-#registerLink{
-  justify-self: flex-end;
-}
-
-
 .modal{
  
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-  z-index: 1000;
+  z-index: 10000;
   width: 30rem;
   height: auto;
   padding: 2.5rem 7rem;
   background-color: white;
   border-radius: 8px;
   color: black;
-  
   align-items: center;
-  
 }
 
 .innerModal{
@@ -268,7 +294,6 @@ button{
   gap: 1rem;
   text-align: center;
   justify-items: center;
-  
 }
 
 .modalOverlay{
@@ -278,7 +303,7 @@ button{
     left:0;
     right: 0;
     background-color: rgba(0,0,0,0.2);
-    z-index: 900;
+    z-index: 9000;
 }
 
 .iconsContainer{
@@ -295,7 +320,50 @@ button{
     height: 80%;
     margin-right: 0.6rem
 }
-   
+
+.spacer{
+  width: 100%;
+  height: 5rem;
+}
+
+@media only screen and (max-width: 990px){
+  #routerView{
+    padding: 0 10%
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  html{
+    font-size: 14px; 
+  }
+
+  #mainLogo{
+      display:none;
+  }
+
+
+  #routerView{
+      margin-top: 0;
+      padding: 0;
+  }
+
+  .pageTitleContainer{
+    justify-content: center;
+    margin-top: 0;
+  }
+  #customScrollIndicatorApp{
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 480px){
+  #routerView{
+    
+    width: 100%;
+  }
+}
+
+
 </style>
 
 

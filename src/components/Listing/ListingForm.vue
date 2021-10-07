@@ -1,7 +1,10 @@
+---------- Form for creating a new listing & editing an existing one ----------
+
 <template>
-    <h1 v-if="listingData.id === undefined">Create new listing</h1>
-    <h1 v-if="listingData.id != undefined">Edit listing</h1>
-    <form class = 'form' @submit.prevent = 'handleSubmit' enctype="multipart/form-data">
+    <div id = 'listingFormContainer'>
+    <h1 class = 'formHeader' v-if="listingData.id === undefined">Create new listing</h1>
+    <h1 class = 'formHeader' v-if="listingData.id != undefined">Edit listing</h1>
+    <form id = 'form' @submit.prevent = 'handleSubmit' enctype="multipart/form-data">
         
        <!-- Street name input field -->
 
@@ -126,8 +129,8 @@
                 id = 'price'  
                 v-model = 'listingData.price' 
                 @input ="v$.listingData.price.$touch" 
-                placeholder="e.g. €150.000 ">
-
+                placeholder="   e.g. 150.000 ">
+            <p class = 'inputAddition euro'>€</p>
             <span class = 'fieldError' v-if="v$.listingData.price.required.$invalid && v$.listingData.price.$dirty">
                 This is a required field.
             </span>
@@ -148,8 +151,8 @@
                         id = 'size'  
                         v-model = 'listingData.size' 
                         @input ="v$.listingData.size.$touch" 
-                        placeholder="e.g. 60m2">
-
+                        placeholder="e.g. 60">
+            <p class = 'inputAddition m2'>m2</p>
             <span class = 'fieldError' v-if="v$.listingData.size.required.$invalid && v$.listingData.size.$dirty">
                 This is a required field.
             </span>
@@ -268,6 +271,9 @@
             </div>  
         </div>
         <div class = 'modalOverlay' v-if = "modalVisible" @click="modalVisible = false , formError = false"></div>
+    </div>
+    <div class = 'spacer'></div>
+    <div id = 'listingFormBackground'></div>
 
 </template>
 
@@ -361,6 +367,22 @@ export default {
         handleFileUpload(e){
             this.listingData.hasFile = true
             this.listingData.file = e.target.files[0]
+            
+            if (e.target.files && e.target.files[0]) {       // converts a recently selected file to a readable URL to display the preview in the upload container
+                var reader = new FileReader();
+                reader.onload = (e) => {
+                    this.uploadImagePopulatedUrl = e.target.result;
+                }
+                reader.readAsDataURL(e.target.files[0])
+                this.populated = true
+            }
+
+
+
+
+
+
+
         },
     },
 
@@ -390,13 +412,33 @@ export default {
 </script>
 
 <style >
-     .form{
+
+    #listingFormContainer{
+        position: relative;
+        z-index: 100;
+    }
+
+    #listingFormBackground{
+        position: fixed;
+        top:0;
+        left: 20%;
+        right:0;
+        bottom:0;
+        background-image: url('../../assets/img_background@2x.png');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        z-index: 0;
+    }
+
+     #form{
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(4, 6rem) 12rem repeat(4, 6rem) 12rem;
         gap: 2rem;
         width: 25rem;
     }
+
+    
 
     .inputField{
         background-color: white;
@@ -525,6 +567,71 @@ export default {
         grid-column: 2;
     }
 
+    .inputAddition{
+        position: absolute;
+        margin-top: 2.6rem;
+        font-size: 0.8rem;
+    }
+
+    .euro{
+        margin-left: 0.5rem;
+    }
+
+    .m2{
+        margin-left: 10rem;
+    }
+
+    @media only screen and (max-width: 990px){
+      #listingFormBackground{
+            top:30%;
+            left: 10%;
+            right:0;
+            bottom:0;
+        }
+    }
+
+
+    @media only screen and (max-width: 768px){
+      #listingFormBackground{
+          opacity: 0.5;
+      }
+    }
+
+    @media only screen and (max-width: 480px){
+        #form, .formHeader{
+            width: 100%;
+        }
+
+          #listingFormBackground{
+            top:38%;
+            left: 30%;
+            right:0;
+            bottom:0;
+            
+        }
+    }
+    @media only screen and (max-width: 330px) {
+        #listingFormBackground{
+            top: 50%;
+        }
+        .inputFieldContainerWrapper{
+            display: flex;
+            flex-direction: column;
+            justify-items: space-between;
+            
+        }
+        .inputFieldContainerWrapper > .inputFieldContainer{
+        width: 100%;
+        height: 100%
+        }
+        #form{
+        
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: unset;
+        gap: 2rem;
+       
+    }
+    }
     
 
 
