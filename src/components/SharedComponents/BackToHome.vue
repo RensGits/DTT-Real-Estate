@@ -9,13 +9,12 @@
 
 <script>
 
-export default {
-  
+export default {}
 
-}
 </script>
 
 <style scoped>
+
     .toHomeContainer{
         position: relative;
         width: 11rem ;
@@ -37,8 +36,5 @@ export default {
             margin:0;
         }
     }
-
-
-
 
 </style>

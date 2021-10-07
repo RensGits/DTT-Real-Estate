@@ -6,9 +6,9 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default createStore({
 
-  // strict: true,            // uncomment in development to check for any changes made to store state from anything else then mutations
+  // strict: true,            // Uncomment in development to check for any changes made to store state from anything else then mutations
 
-  plugins: [createPersistedState({    // persists state on page refresh
+  plugins: [createPersistedState({    // Persists state on page refresh
     storage: window.sessionStorage,
       }
     )
@@ -27,7 +27,6 @@ export default createStore({
     searchResultsCounter: null,     // Count how many search results search input holds
     noResults: false,               // True if search returns no results
     
-   
 
     newListing: {                   // Data retrieved from Create Listing form (new or edit)      
       price: '',
@@ -43,9 +42,6 @@ export default createStore({
       hasGarage: '',
       description: '',
     }
-
-  
- 
   },
 
 
@@ -54,23 +50,23 @@ export default createStore({
 
   getters: {
 
-      getCurrentSearchInput: state => {           // gets current search input
+      getCurrentSearchInput: state => {           // Gets current search input
         return state.currentSearchInput
       },
 
-      getFilteredHouses: state => {               // gets filtered houses based on search input
+      getFilteredHouses: state => {               // Gets filtered houses based on search input
         
         const filteredHouses = state.houses.filter(
           house =>  
-          (house.location.zip.toLowerCase().includes(state.currentSearchInput.toLowerCase()))     ||    //filters on zipcode
-          (house.location.street.toLowerCase().includes(state.currentSearchInput.toLowerCase()))  ||    //filters on streetname
-          (house.location.city.toLowerCase().includes(state.currentSearchInput.toLowerCase()))    ||    //filters on city
-          (JSON.stringify(house.size).includes(state.currentSearchInput.toLowerCase()))                 //filters on size
+          (house.location.zip.toLowerCase().includes(state.currentSearchInput.toLowerCase()))     ||    // Filters on zipcode
+          (house.location.street.toLowerCase().includes(state.currentSearchInput.toLowerCase()))  ||    // Filters on streetname
+          (house.location.city.toLowerCase().includes(state.currentSearchInput.toLowerCase()))    ||    // Filters on city
+          (JSON.stringify(house.size).includes(state.currentSearchInput.toLowerCase()))                 // Filters on size
         );
         return filteredHouses
       },
 
-      getHouseById: state => (id) => {            // gets house based on given id
+      getHouseById: state => (id) => {            // Gets house based on given id
         console.log('id in getHouseById: ')
         console.log(id)
         const singleHouse = state.houses.find(house => JSON.stringify(house.id) === id)  
@@ -79,40 +75,40 @@ export default createStore({
         return singleHouse
       },
 
-      getNewListing: state => {                 // gets new listing based on create new listing or edit listing input
+      getNewListing: state => {                 // Gets new listing data based on create new listing or edit listing input
         return state.newListing
       },
 
-      getNoResults: state => {                  // gets current state of results (results or none)
+      getNoResults: state => {                  // Gets current state of results (results or no results)
         return state.noResults
       },
 
-      getRecentlyUploadedId: state => {         // gets ID of recently uploaded listing (new or edited)
+      getRecentlyUploadedId: state => {         // Gets ID of recently uploaded listing (new or edited)
         return state.recentlyUploadedId
       },
 
-      getUserFavoritesId: state => {            
+      getUserFavoritesId: state => {            // Gets array of id's set by user as favorite
         return state.userFavoritesId
       },
 
-      getIsUserFavorite: state => (id) => {
-        if(state.userFavoritesId.includes(id)){
+      getIsUserFavorite: state => (id) => {         // Checks if given id is included in the userFavoritesId 
+        if(state.userFavoritesId.includes(id)){     // array and returns if so
           return true
         }
         else return false
       },
 
-      getUserFavoriteHouses: state => {
+      getUserFavoriteHouses: state => {         // Returns data of all houses set to favorite by user
         return state.userFavoriteHouses
       },
 
-      getUserOwnListings: state => {
+      getUserOwnListings: state => {            // Returns data of all houses listed by the user
         return state.userOwnListings
       },
 
-      getFormattedPrice: state => (num) => {
+      getFormattedPrice: state => (num) => {    // Formats and returns the given price to include decimal seperators
           let number = num
-          return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')   // formats price 
+          return number.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')   
       },
   },
 
@@ -126,9 +122,9 @@ export default createStore({
       // ----------- API CALLS ---------- //
     
     
-      async fetchHouses({commit}){                                  // fetches houses from API ---- GET ----
-     
-        var config = {
+      async fetchHouses({commit}){      // Fetches houses from API  ---- GET ----
+                                        // Replace http://localhost:8080/api/houses in production. 
+        var config = {                  // Proxy used --> see vue.config.js in root folder.
           method: 'get',
           url: 'http://localhost:8080/api/houses',
           headers: { 
@@ -153,12 +149,12 @@ export default createStore({
        
 
 
-      async postHouse({commit, dispatch},payload){                                   // posts / edits house to API   ---- POST -----
-      
+      async postHouse({commit, dispatch},payload){      // posts/edits house data from listing form to API    ---- POST -----
+                                                        // and uploads or edits picture added in listing form.
         var FormData = require('form-data');
         var data = new FormData();
 
-        data.append('price', payload.price.replace('.',''));
+        data.append('price', JSON.stringify(payload.price).replace('.',''));
         data.append('bedrooms', payload.bedrooms);
         data.append('bathrooms', payload.bathrooms);
         data.append('size',payload.size);
@@ -173,7 +169,7 @@ export default createStore({
 
         var config = {
           method: 'post',
-          url: payload.id === undefined ?                                     // check wether data comes from a new listing or an edited listing
+          url: payload.id === undefined ?                               // check wether data originated from a new listing or an edited listing
             'http://localhost:8080/api/houses/' : 
             `http://localhost:8080/api/houses/${payload.id}`, 
           headers: { 
@@ -202,7 +198,7 @@ export default createStore({
 
           var configPicture = {
             method: 'post',
-            url: payload.id === undefined ?                                     // check wether image comes from a new listing or an edited listing
+            url: payload.id === undefined ?                                         // check wether data originated from a new listing or an edited listing
               `http://localhost:8080/api/houses/${idFromResponse}/upload` :  
               `http://localhost:8080/api/houses/${payload.id}/upload` ,
                               
@@ -221,8 +217,8 @@ export default createStore({
             console.log(error);
               });
             })
-          .then(function(){
-            dispatch('fetchHouses')
+          .then(function(){                                    // Sets the recently uploaded id for redirection to house details page,
+            dispatch('fetchHouses')                            // after new posting or editing an existing one
             if(payload.id === undefined){
               commit('setRecentlyUploadedId', idFromResponse)
             }
@@ -234,7 +230,7 @@ export default createStore({
 
 
 
-      async deleteHouseAPI({dispatch},id){                     // deletes house from API   ---- POST ---
+      async deleteHouseAPI({dispatch},id){                     // deletes house with given id from API   ---- POST ---
           
         console.log('post method reached')
           console.log('id :')
@@ -247,9 +243,7 @@ export default createStore({
           headers: { 
             'X-Api-Key': 'Tom43Z5jLkqyMB0XniKsRa6NcC9EeAFV'
           }
-        };
-          
-          let idStore = ''
+          };
 
           axios(config)
           .then(function (response) {
@@ -259,7 +253,7 @@ export default createStore({
           .catch(function (err) {
             console.log(err);
           })
-          .then(function(){
+          .then(function(){                                // Fetches houses after deletion to update page
               dispatch('fetchHouses')
           })
       },
@@ -267,51 +261,70 @@ export default createStore({
 
       // ---------- OTHER ACTIONS ---------- //
     
-      currentHouseToNewListing({commit}){   // sets house to newListing in state
+      currentHouseToNewListing({commit}){                           // Sets house to newListing in state
         commit('setCurrentHouseToNewListing', currentHouse)
       },
   
-      sortingToSizeAsc({commit, state}){       // sort house list to size commit
-        const houses = state.houses                    
-        commit('setSortedBySizeAsc', houses)
-      },
-
-      sortingToPriceAsc({commit, state}){      // sort house list to price commit
-        const houses = state.houses                     
-        commit('setSortedByPriceAsc', houses)
-      },
-
-      sortingToSizeDesc({commit,state}){
+      sortingToSizeAsc({commit, state}){                // Sorts houses list to size ascending
         const houses = state.houses
-        commit('setSortedBySizeDesc',houses)
+        const sortedArray = sortArray(houses, {
+          by: 'size',
+          order: 'asc'
+        })                      
+        commit('setSortedBySizeAsc', sortedArray)
       },
 
-      sortingToPriceDesc({commit,state}){
+      sortingToPriceAsc({commit, state}){               // Sorts houses list to price ascending
+        const houses = state.houses 
+        const sortedArray = sortArray(houses, {
+          by: 'price',
+          order: 'asc'
+        })                            
+        commit('setSortedByPriceAsc', sortedArray)
+      },
+
+      sortingToSizeDesc({commit,state}){                // Sorts houses list to size descending 
         const houses = state.houses
-        commit('setSortedByPriceDesc',houses)
+        const sortedArray = sortArray(houses, {
+          by: 'size',
+          order: 'desc'
+        })           
+        commit('setSortedBySizeDesc', sortedArray)
       },
 
-      searchInput({commit},payload){        // sets user search input to currentSearchInput
+      sortingToPriceDesc({commit,state}){               // Sorts houses list to price descending
+        const houses = state.houses
+        const sortedArray = sortArray(houses, {
+          by: 'price',
+          order: 'desc'
+        })        
+        commit('setSortedByPriceDesc', sortedArray)
+      },
+
+      searchInput({commit},payload){                     // Recieves user search input
         commit('setUserInput', payload)
       },
      
-      noResults({commit},payload){          // sets no results to true or false (only after search input)
+      noResults({commit},payload){                       // Recieves results status after search input (true is no results)
        commit('setNoResults', payload) 
       },
 
-      userFavoritesId({commit},payload){    
-        commit('setUserFavoritesId', payload)
+      userFavoritesId({commit, state},payload){                   // Removes house id from favorites array if already in the array,
+        const index = state.userFavoritesId.indexOf(payload)      // else adds it to the array
+        if(index === -1){
+          commit('setUserFavoritesId', payload)}
+        else commit('setSpliceUserFavoritesId', index)
       },
 
-      userFavoriteHouses({commit, state}){
-        console.log('userFavoriteHouses reached')
+      userFavoriteHouses({commit, state}){                        // Adds data of every house listed in the userFavoritesID array,
+        console.log('userFavoriteHouses reached')                 // to the favoriteHouses array
         let favoriteHouses = []
         this.state.userFavoritesId.forEach(
           id => favoriteHouses.push(state.houses.find(house => JSON.stringify(house.id) === JSON.stringify(id))))
         commit('setUserFavoriteHouses', favoriteHouses)
       },
 
-      userOwnListings({commit, state}){
+      userOwnListings({commit, state}){                   // Adds data of every house that is not already in the API database to the ownListedHouses array 
         let ownListedHouses = state.houses.filter(house => house.id > 11)
         commit('setUserOwnListings', ownListedHouses)
       },   
@@ -323,85 +336,69 @@ export default createStore({
 
   mutations: {     
 
-      setHouses(state,fetchResponseFromActions){          // inital houses list from fetch commmit
+      setHouses(state,fetchResponseFromActions){          // Commits houses data to store from fetch response
         state.houses = fetchResponseFromActions
       },
 
-      setSortedByPriceAsc(state,houses){                     // sorts houses list to price upon toggeling filter button to price
-        const sortedArray = sortArray(houses, {
-          by: 'price',
-          order: 'asc'
-        })        
-        state.houses = sortedArray
+      setSortedByPriceAsc(state, sortedHousesFromActions){        // Commits price sorting ascending to store               
+        
+        state.houses = sortedHousesFromActions
         console.log('sorted to price - ascending')
       },
 
-      setSortedBySizeAsc(state, houses){                     // sorts houses list to size upon toggeling filter button to size
-        const sortedArray = sortArray(houses, {
-          by: 'size',
-          order: 'asc'
-        })           
-        state.houses = sortedArray
+      setSortedBySizeAsc(state, sortedHousesFromActions){         // Commits size sorting ascending to store             
+            
+        state.houses = sortedHousesFromActions
         console.log('sorted to size - ascending')
       },
 
-      setSortedByPriceDesc(state,houses){                     // sorts houses list to price upon toggeling filter button to price
-        const sortedArray = sortArray(houses, {
-          by: 'price',
-          order: 'desc'
-        })        
-        state.houses = sortedArray
+      setSortedByPriceDesc(state, sortedHousesFromActions){       // Commits price sorting descending to store                   
+        
+        state.houses = sortedHousesFromActions
         console.log('sorted to price - decending')
       },
 
-      setSortedBySizeDesc(state, houses){                     // sorts houses list to size upon toggeling filter button to size
-        const sortedArray = sortArray(houses, {
-          by: 'size',
-          order: 'desc'
-        })           
-        state.houses = sortedArray
-        console.log('sorted to size - ascending')
+      setSortedBySizeDesc(state, sortedHousesFromActions){        // Commits size sorting descending to store                
+        
+        state.houses = sortedHousesFromActions
+        console.log('sorted to size - descending')
       },
       
 
-      setUserInput(state,userInputFromActions){           // user search input commit
+      setUserInput(state,userInputFromActions){                                   // Commits user search input to store
         state.currentSearchInput = userInputFromActions
       },
 
-      setNewListing(state, newListingFromActions){        // new listing commit
+      setNewListing(state, newListingFromActions){                                // Commits new listing to store
         state.newListing = newListingFromActions
       },
 
-      setNoResults(state, noResultsFromActions){
+      setNoResults(state, noResultsFromActions){                                  // Commits no results (true or false) to store
         state.noResults = noResultsFromActions
       },
 
-      setRecentlyUploadedId(state, idFromResponseFromActions){
+      setRecentlyUploadedId(state, idFromResponseFromActions){                    // Commits recently uploaded id to store
         state.recentlyUploadedId = idFromResponseFromActions
       },
 
-      setRemoveHouseById(state, houseByIdFromActions){
+      setRemoveHouseById(state, houseByIdFromActions){                            // Commits removal of house from id to store
         state.houses = state.houses.splice(houseByIdFromActions,1)
       },
 
-      setUserFavoritesId(state, idFromUserFavoritesActions){                      // toggles favorite status of clicked house in state
-        const index = state.userFavoritesId.indexOf(idFromUserFavoritesActions)
-        if(index === -1){
+      setUserFavoritesId(state, idFromUserFavoritesActions){                      // Commits the id of recently added favorite to store
           state.userFavoritesId.push(idFromUserFavoritesActions)
-        }
-        else {
-          state.userFavoritesId.splice(index, 1)
-        }
       },
 
-      setUserFavoriteHouses(state, favoriteHousesFromActions){
+      setSpliceUserFavoritesId(state, indexFromUserFavoritesActions){             // Commits removal of recently removed favorite to store
+        state.userFavoritesId.splice(indexFromUserFavoritesActions, 1)
+      },
+       
+      setUserFavoriteHouses(state, favoriteHousesFromActions){                    // Commits favorite houses data to store
         state.userFavoriteHouses = favoriteHousesFromActions
       },
 
-      setUserOwnListings(state, userOwnListingsFromActions){
+      setUserOwnListings(state, userOwnListingsFromActions){                      // Commits users own listes houses data to store
         state.userOwnListings = userOwnListingsFromActions
       }
   },
-
-  
 })

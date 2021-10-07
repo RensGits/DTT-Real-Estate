@@ -1,3 +1,5 @@
+---------- Home page with the overview of all houses ----------
+
 <template>
   <div>
     <div class = 'overviewPageContainer'>
@@ -68,7 +70,7 @@ export default {
     SearchBar
   },
 
-  data(){
+  data(){           
     return{
       btnLeftActive: false,
       btnRightActive: false,
@@ -83,7 +85,7 @@ export default {
   methods: {
     ...mapActions(['fetchHouses', 'sortingToPriceAsc', 'sortingToSizeAsc', 'sortingToSizeDesc','sortingToPriceDesc']),
 
-    handleButtonToggle(e){
+    handleButtonToggle(e){                  // sets the clicked filter button as active, then calls sorting function
       if(e.target.id === 'btnright'){
         this.btnLeftActive = false;
         this.btnRightActive = true;
@@ -96,22 +98,22 @@ export default {
       }
     },
 
-    handleSortingToggle(){
+    handleSortingToggle(){                   // toggles ascending / descending filter
       this.descending = !this.descending
       this.handleSorting();
     },
 
-    handleSorting(){
-      if(this.btnRightActive && !this.descending){
+    handleSorting(){                                    // Calls action from store depending on what sorting is applied
+      if(this.btnRightActive && !this.descending){      // Sorting to size + ascending
         this.sortingToSizeAsc();
       }
-      if(this.btnLeftActive && !this.descending){
+      if(this.btnLeftActive && !this.descending){       // Sorting to price + ascending 
         this.sortingToPriceAsc();
       }
-      if(this.btnRightActive && this.descending){
+      if(this.btnRightActive && this.descending){       // Sorting to size + descending
         this.sortingToSizeDesc();
       }
-      if(this.btnLeftActive && this.descending){
+      if(this.btnLeftActive && this.descending){        /// Sorting to price + descending
         this.sortingToPriceDesc();
       }
       
@@ -119,7 +121,7 @@ export default {
     
   },
   
-  created(){
+  created(){                    
     this.fetchHouses();    
   },
 }

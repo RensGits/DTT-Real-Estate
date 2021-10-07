@@ -1,7 +1,11 @@
 ---------- Form for creating a new listing & editing an existing one ----------
 
 <template>
+
     <div id = 'listingFormContainer'>
+
+    <!-- Listing page header -->
+
     <h1 class = 'formHeader' v-if="listingData.id === undefined">Create new listing</h1>
     <h1 class = 'formHeader' v-if="listingData.id != undefined">Edit listing</h1>
     <form id = 'form' @submit.prevent = 'handleSubmit' enctype="multipart/form-data">
@@ -23,8 +27,6 @@
                 This is a required field.
             </span>
         </div>
-
-        
 
         <div class = 'inputFieldContainerWrapper'>
 
@@ -261,10 +263,13 @@
         <!-- Form submition modal -->
 
         <div class = 'modal' v-if = "modalVisible">
+
+            <!-- Successful form submition -->
             <div class = 'innerModal' v-if="formSubmitted">
                 <h2>Your listing has been succesfully posted!</h2>
                 <button @click="$router.push('/details/' + getRecentlyUploadedId)">See my listing</button>
             </div>
+            <!-- Unsuccesful form submiton -->
             <div v-if="formError">
                 <h2>There seems to be a problem...</h2>
                 <p>Some fields are not filled in correctly, please go back and check the field requirements.</p>
@@ -291,8 +296,8 @@ export default {
         
         return{
             
-            listingData: {
-                price: '',
+            listingData: {                      // Data connected with v-model in form
+                price: '',                      // If listing form is editable, this data is populated on mount
                 bedrooms: '',
                 bathrooms: '',
                 size: '',
@@ -309,9 +314,8 @@ export default {
                 hasFile: false,
             },
 
-            v$: useValidate(),
+            v$: useValidate(),              // All other data points
             populated: false,
-          
             uploadImagePopulatedUrl: '', 
             formAboutToSubmit: false,
             formError: false,
@@ -322,8 +326,8 @@ export default {
     },
 
         
-       validations(){
-            return {
+       validations(){                       // Validations object used by Vuelidate
+            return {                        // Sets what parameters is validated
                 
                 listingData: {
                     price: {required, numeric},
@@ -344,23 +348,23 @@ export default {
 
     computed:{
         ...mapGetters(['getRecentlyUploadedId', 'getHouseById']),
-        handlePopulated(){
-            this.populated = !this.populated
+        handlePopulated(){                         // Sets populated in component data to true or false,
+            this.populated = !this.populated       // true if image is selected, false if not
         }
     },
 
     methods: {
         ...mapActions(['postHouse']),
-        handleSubmit(){
-            this.v$.$validate()
-            this.modalVisible = true   
+        handleSubmit(){                            // Handles submit: checks if form contains errors
+            this.v$.$validate()                    // if false commits to store --> API post, if true blocks submit
+            this.modalVisible = true    // Triggers modal pop-up   
             if(!this.v$.$error && this.listingData.hasFile){
                 this.postHouse(this.listingData)
-                this.formSubmitted = true
+                this.formSubmitted = true           // Used by modal to show submition was succesfull
             }
             else {
                 console.log('form declined')
-                this.formError = true
+                this.formError = true               // Used by modal show submiton was unsuccesfull
                 this.formErrorFile = true 
             }
         },
@@ -388,7 +392,7 @@ export default {
 
     mounted(){
        
-        if(this.listingData.id != undefined){ 
+        if(this.listingData.id != undefined){       // Populates component data with listing data if available (if originating from edit link)
             this.populated = true
             this.listingData.hasFile = true
             let data = this.$store.getters.getHouseById(this.listingData.id)
@@ -437,8 +441,6 @@ export default {
         gap: 2rem;
         width: 25rem;
     }
-
-    
 
     .inputField{
         background-color: white;
@@ -511,7 +513,6 @@ export default {
         cursor: pointer;  
     }
 
-    
     .uploadImagePlus{
         width: 40%;
         height: auto;
@@ -621,16 +622,16 @@ export default {
             
         }
         .inputFieldContainerWrapper > .inputFieldContainer{
-        width: 100%;
-        height: 100%
+            width: 100%;
+            height: 100%
         }
+
         #form{
-        
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: unset;
-        gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: unset;
+            gap: 2rem;
        
-    }
+        }
     }
     
 

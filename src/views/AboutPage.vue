@@ -1,3 +1,5 @@
+---------- About Page ----------
+
 <template>
   <div>
       <div id = 'aboutPageContainer'>
@@ -5,12 +7,16 @@
             <h1>About</h1>
         </div>
 
+        <!-- Intro paragraph -->
+
         <section>
             <p>
                 This web application was build in Vue.js as part of the Front-end development traineeship 
                 application at DTT. With this web application, I hope to demonstrate my knowledge of Vue.js. 
             </p>
         </section>
+
+        <!-- Assignment recap -->
 
         <section>
             <h2 class = 'sectionTitle'>The assignment</h2>
@@ -21,6 +27,9 @@
             </p>
             
             <br/>
+
+            <!-- User stories scroll container -->
+
             <div id = 'userStories' ref ='userStories' @scroll="handleScoll" >
                 <div id = 'customScrollIndicator'>
                     <div :style="{'height':scrollProgress + '%', 'background-color': 'rgb(235,84,64)'}" id = 'customScrollIndicatorProgress'></div>
@@ -109,6 +118,8 @@
             </div>
         </section>
 
+        <!-- Extras section -->
+
         <section>
             <h2 class = 'sectionTitle'>Extras</h2>
             <p>Here follows a list of things that I added on top of the minimal requirements:</p>
@@ -123,11 +134,12 @@
             </ul>
         </section>
 
+        <!-- Things to mention section -->
+
         <section>
-            <h2 class = 'sectionTitle'>Extras</h2>
+            <h2 class = 'sectionTitle'>And...</h2>
             <p>Some other design choices worth mentioning:</p>
             <ul>
-             
                 <li>The searchbar automatically retrieves all results on deleting the current search input, not only by pressing the clear icon, but any other way possible.</li>
                 <li>The create new listing form (or when editing an existing one) checks, on top if a required field is filled in, if a numeric value is entered where one is needed. </li>
                 <li>On screen width sizes smaller then 330px, the overview tiles on the overview page show just the adress, price and size to keep things clear at those small sizes.</li>
@@ -137,8 +149,9 @@
                     didn't seem to reproduce the design shown in the workflow (probably my mistake). </li>
             </ul>
         </section>
-
         
+        <a href="https://github.com/RensGits/DTT-Real-Estate" target="_blank" ><button >To repository</button></a>
+       
         
       </div>
       <div class = 'spacer'></div>
@@ -154,32 +167,25 @@ export default {
     
     data(){
         return{
-            showParagraph: false,
-            scrollProgress: '10%'
-            
+            scrollProgress: ''
         }
     },
 
     methods:{
-        toggleParagraph(){
-            this.showParagraph = !this.showParagraph
-        },
-        handleScroll() {                                                            // sets scrollProgress to the relative scrollheight to the container
-           
-            const progress = this.$refs.userStories.scrollTop / 
+        handleScroll() {                                                            // Sets scrollProgress to the relative scrollheight of the container
+           const progress = this.$refs.userStories.scrollTop / 
                 (this.$refs.userStories.scrollHeight - 
                 this.$refs.userStories.clientHeight) * 100
             this.scrollProgress = progress
-        }
-        
+        } 
     },
 
-    mounted() {                                                                     // adds scroll event listener
+    mounted() {                                                                     // Adds scroll event listener
         this.$refs.userStories.addEventListener('scroll', this.handleScroll); 
     },
 
     beforeDestroyed(){
-        this.$refs.userStories.removeEventListener('scroll', this.handleScroll);    // removes scroll event listener
+        this.$refs.userStories.removeEventListener('scroll', this.handleScroll);    // Removes scroll event listener
     }
 
   
@@ -224,7 +230,12 @@ a{
     background-color: gray;
 }
 
-
+#aboutButtons{
+    display: flex;
+    justify-content: space-between;
+    width: 24rem;
+    height: 5rem;
+}
 
 @media only screen and (max-width: 990px) {
     #customScrollIndicator{
@@ -238,8 +249,6 @@ a{
         right: 2%;
     }
 }
-
-
 
 
 </style>

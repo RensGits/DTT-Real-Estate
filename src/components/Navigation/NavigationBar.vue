@@ -28,10 +28,8 @@
             <div id = 'myListingRouteIcon'></div>
           </router-link>
         </div>
-        
-        
+
       </div> 
-        
     </div>
 </template>
 
@@ -49,6 +47,7 @@ export default {
       }
     }
   },
+
   methods: {
     handleActiveToggle(e){
       console.log(this.currentRouteName())
@@ -57,15 +56,18 @@ export default {
 
   computed: {
     computed: {
-    currentRouteName(){
-        return this.$route.name;
+      currentRouteName(){
+          return this.$route.name;
+      }
     }
-}
   }
 }
+
 </script>
 
+
 <style>
+
 #nav {
   display:grid;
   position: sticky;
@@ -115,14 +117,13 @@ export default {
 }
 
 @media only screen and (max-width: 990px) {
+
   #navItems{
     width: 80%
   }
-  
 }
 
 @media only screen and (max-width: 768px) {
-
 
   #mainLogo{
     display:none;
@@ -151,14 +152,12 @@ export default {
     width: 100%;
     height: 100%;
     justify-content: space-around;
-   
   }
 
   .routerIcons{
     display: flex;
     height: 100%;
     margin-left: unset !important;
-    
   }
 
   #houseRouteIcon,#aboutRouteIcon,#myListingRouteIcon{
@@ -167,26 +166,30 @@ export default {
     background-repeat: no-repeat;
     background-position: center;
   }
+
   #houseRouteIcon{
     background-image: url('../../assets/ic_mobile_navigation_home.png');
   }
+
   #pagesLinkMobile a.router-link-exact-active #houseRouteIcon{
     background-image: url('../../assets/ic_mobile_navigation_home_active.png')
   }
+
   #aboutRouteIcon{
     background-image: url('../../assets/ic_mobile_navigation_info.png');
   }
+
   #pagesLinkMobile a.router-link-exact-active #aboutRouteIcon{
     background-image: url('../../assets/ic_mobile_navigation_info_active.png')
   }
+
   #myListingRouteIcon{
     background-image: url('../../assets/ic_my_listing.png')
   }
+
   #pagesLinkMobile a.router-link-exact-active #myListingRouteIcon{
     background-image: url('../../assets/ic_my_listing_active.png')
   }
 }
-
-
 
 </style>

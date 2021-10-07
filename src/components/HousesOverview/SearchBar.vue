@@ -1,12 +1,15 @@
 ---------- Searchbar component + results counter ----------
 
 <template>
-        
+
+        <!-- SearchBar, seach & clear icon -->
         <img id = 'searchBarIconSearch' src="../../assets/ic_search@2x.png" alt="">
         <img id = 'searchBarIconClear' src= "../../assets/ic_clear@2x.png" alt="" @click="handleSearchClear">
         <input id = 'searchBar' type = 'text' placeholder="Search for a house" @keyup="handleSearchInput" ref = 'searchBar'/>
-        <h2 v-if = "getFilteredHouses.length > 0 && getCurrentSearchInput != ''" id = 'resultsCounter'>{{getFilteredHouses.length}} results found</h2>
-   
+
+        <!-- Counter shown after a result input -->
+        <h2 v-if = "getFilteredHouses.length > 0 && getCurrentSearchInput != ''" id = 'resultsCounter'>{{getFilteredHouses.length}} results found</h2> 
+        
 </template>
 
 <script>
@@ -36,14 +39,12 @@ export default {
                 this.searchInput(e.target.value);
                 this.noResults(false)
             } 
-           
         },
         handleSearchClear(){                                                        // Clears search input and returns all results
             this.$refs.searchBar.value = ''
             this.searchInput(this.$refs.searchBar.value)
             this.noResults(false)
         }
-     
     }  
 }
 
@@ -64,8 +65,6 @@ export default {
     font-family: 'Open Sans', 'sans-serif';
 }
 
-
-
 #searchBarIconSearch{
     position: absolute;
     height: 1rem;
@@ -85,7 +84,7 @@ export default {
 }
 
 @media only screen and (max-width: 990px) {
-      #searchBar{
+    #searchBar{
         grid-row: 1;
         width: 100%;
     }
@@ -94,6 +93,7 @@ export default {
         top: 13.5rem;
         left: 86%;  
     }
+
     #searchBarIconSearch{
         top: 13.5rem;
         left: 12%;
@@ -102,7 +102,6 @@ export default {
 
 }
 @media only screen and (max-width: 768px) {
-  
 
     #resultsCounter{
         grid-row: 3;
@@ -125,12 +124,7 @@ export default {
     #searchBarIconClear{
         left: 86%;  
     }
-
 }
-
-
-
-
 
 </style> 
 

@@ -1,3 +1,5 @@
+---------- Page for the listing form ----------
+
 <template>
     <div>
         <div id = 'createListingPageContainer'>

@@ -1,3 +1,6 @@
+---------- Main App Component ----------
+
+
 <template>
   <div id = 'app' ref = 'app' @scroll = 'handleScroll' >
     <Nav/>
@@ -162,7 +165,6 @@ textarea{
   padding: 1rem;
 }
 
-
 section{
   padding: 1rem 0;
 }
@@ -234,7 +236,6 @@ section{
   color: rgb(6,123,194)
 }
 
-
 button{
   background-color: rgb(230,85,64);
   color: white;
@@ -250,8 +251,6 @@ button:hover{
   cursor:pointer;
   color:rgb(225, 225, 225)
 }
-
-
 
 #app{
   min-height: 100vh !important;
@@ -273,7 +272,6 @@ body::-webkit-scrollbar {
 }
 
 .modal{
- 
   position: fixed;
   top: 50%;
   left: 50%;
@@ -297,28 +295,28 @@ body::-webkit-scrollbar {
 }
 
 .modalOverlay{
-    position: fixed;
-    height: 100%;
-    top: 0;
-    left:0;
-    right: 0;
-    background-color: rgba(0,0,0,0.2);
-    z-index: 9000;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left:0;
+  right: 0;
+  background-color: rgba(0,0,0,0.2);
+  z-index: 9000;
 }
 
 .iconsContainer{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .iconSmall{
-    height: 60%;
+  height: 60%;
 }
 
 .iconMedium{
-    height: 80%;
-    margin-right: 0.6rem
+  height: 80%;
+  margin-right: 0.6rem
 }
 
 .spacer{
@@ -338,13 +336,13 @@ body::-webkit-scrollbar {
   }
 
   #mainLogo{
-      display:none;
+    display:none;
   }
 
 
   #routerView{
-      margin-top: 0;
-      padding: 0;
+    margin-top: 0;
+    padding: 0;
   }
 
   .pageTitleContainer{
@@ -358,7 +356,6 @@ body::-webkit-scrollbar {
 
 @media only screen and (max-width: 480px){
   #routerView{
-    
     width: 100%;
   }
 }

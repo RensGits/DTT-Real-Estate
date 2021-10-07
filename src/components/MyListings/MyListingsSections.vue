@@ -1,6 +1,9 @@
 ---------- Component that generates tiles for the 'My own listings' & 'My favorites' section on the My listings page ----------
 
 <template>
+
+    <!-- Users own listings section -->
+
     <div id = 'MyListingsSectionsContainer'>
         <div class ='myListingsSection'>
             <h2>My own listings</h2>
@@ -15,6 +18,8 @@
             />
             </div>
         </div>
+    
+    <!-- Users favorites section -->
 
     <div class ='myListingsSection'>
         <h2>My favorites</h2>
@@ -41,8 +46,6 @@ import MyListingHouseTile from './MyListingHouseTile.vue'
 
 export default {
 
-    
-
     components:{
         MyListingHouseTile
     },
@@ -56,7 +59,6 @@ export default {
         handleClick(){
             this.userOwnListings();
         },
-        
     },
 
     mounted(){
@@ -90,14 +92,14 @@ export default {
 
 @media only screen and (max-width: 768px) {
     
-.autoFillGrid {
-    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
-    justify-items: center;
-}
+    .autoFillGrid {
+        grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+        justify-items: center;
+    }
 
-p,h2{
-    text-align: center;
-}
+    p,h2{
+        text-align: center;
+    }
 }
 
 

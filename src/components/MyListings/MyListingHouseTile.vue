@@ -33,15 +33,12 @@ export default {
         FavoriteToggle,
         EditDeleteIcons 
     },
-    
-
 }
-
 
 </script>
 
-<style scoped>
 
+<style scoped>
 
 p,h2,h4{
     position: absolute;
@@ -77,9 +74,7 @@ img{
 
 #myListingHouseTileContainer{
     position: relative; 
-    
 }
-
 
 #overlay{
     position: absolute;
@@ -110,20 +105,19 @@ img{
     align-items: center;
     opacity: 1;
     border-radius: 8px;
-    
 }
+
 button{
     width: 8rem;
     font-size: 0.7rem;
 }
 
 .favoriteContainerMyListingTile{
-  
-        position: absolute;
-        left: unset !important;
-        right: 0.8rem !important;
-        top: 0.8rem !important;
-        z-index: 2500;
+    position: absolute;
+    left: unset !important;
+    right: 0.8rem !important;
+    top: 0.8rem !important;
+    z-index: 2500;
 }
 
 @media only screen and (max-width: 768px) {

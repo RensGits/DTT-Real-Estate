@@ -1,3 +1,5 @@
+---------- Page for the house details (per specific house) ----------
+
 <template>
     <div>
         <BackToHome v-if="!isMobile"/>
@@ -24,26 +26,20 @@ export default {
     },
 
     methods: {
-        handleResize() {
+        handleResize() {                    // if window width < 768 , sets "mobile" to true on component created
             if(window.innerWidth < 768){
             this.isMobile = true}
             else this.isMobile = false
         }
     },
 
-    created() {
+    created() {                                                     // event listener creation & deletion for "mobile" check
         window.addEventListener('resize', this.handleResize);
         this.handleResize(); 
     },
 
     destroyed() {
         window.removeEventListener('resize', this.handleResize);
-    },
-
-    mounted(){
-        console.log(this.isMobile)
-    }
-    
-   
+    },    
 }
 </script>

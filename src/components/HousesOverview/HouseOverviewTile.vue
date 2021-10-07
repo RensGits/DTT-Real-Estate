@@ -33,13 +33,10 @@ import EditDeleteIcons from '../SharedComponents/EditDeleteIcons.vue'
 import FavoriteToggle from '../SharedComponents/FavoriteToggle.vue'
 import {mapActions, mapGetters} from 'vuex'
 
-
 export default {
 
-    
     components:{
         EditDeleteIcons, FavoriteToggle
-
     },
 
     props: [
@@ -66,13 +63,14 @@ export default {
             console.log(this.id)
             this.deleteHouseAPI(this.id)
         },
-       
     }
 }
     
 </script>
 
+
 <style>
+
     #overviewTileContainer{
         display: flex;
         justify-content: space-between;
@@ -98,7 +96,6 @@ export default {
         padding: 1rem;
     }
 
-
     #overviewTileMiddle{
         display:flex;
         flex-direction: column;
@@ -116,10 +113,7 @@ export default {
         justify-content: space-between;
     }
 
-  
-
     #overviewTileImage{
-      
         width: 9rem;
         height: 9rem;
         margin-right: 1.5rem;
@@ -128,33 +122,26 @@ export default {
 
     .clickableIcon:hover{
         cursor: pointer;
-       
     }
 
     .favoriteContainerOverviewTile{
-     
         position: absolute;
         left: 0.8rem;
         top: 1.5rem;
         z-index: 2500;
     }
 
-        .detailsIconsContainer{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 1.5rem;
-            width: 11.5rem;
-          
-        }
+    .detailsIconsContainer{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 1.5rem;
+        width: 11.5rem;
+    }
     
-   
-
-
     @media only screen and (max-width: 480px) {
         #overviewTileContainer{
             height: 9rem;
-            
         }
 
         #overviewTileLeft{
@@ -185,8 +172,6 @@ export default {
             width: 10rem;
         }
     }
-
- 
 
     @media only screen and (max-width: 330px) {
        

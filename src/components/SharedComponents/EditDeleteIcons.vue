@@ -47,18 +47,19 @@ export default {
 
     methods:{
         ...mapActions(['deleteHouseAPI']),
-        handleModal(){
+        handleModal(){                          // Shows modal before house deletion
             this.showModal = true
         },
-        handleDelete(){
-            this.deleteHouseAPI(this.id)
+
+        handleDelete(){                         // Makes POST request to delete house from API & hides modal
+            this.deleteHouseAPI(this.id)        
             this.showModal = false
         }  
     },
 
     mounted(){
-        if(this.id > 11){
-            this.editable = true
+        if(this.id > 11){                       // Sets houses not listen by user as non-editable
+            this.editable = true                // (Would be replaced with user verification in production)
         } 
         else this.editable = false
     }
@@ -67,6 +68,7 @@ export default {
 
 
 <style>
+
 .iconsContainer{
     display: flex;
     justify-content: space-between;
@@ -125,11 +127,10 @@ export default {
     .iconsContainer{
         width: 4rem;
     }
+
     .iconEditDelete{
         width: 30%!important;
     }
 }
-
-   
 
 </style>

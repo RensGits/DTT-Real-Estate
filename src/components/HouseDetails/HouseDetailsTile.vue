@@ -1,8 +1,10 @@
 ---------- Individual tile for the HouseDetailsPage ----------
 
 <template>
+
+  <!-- Top image, icons and back navigation -->
+
   <div class = 'detailsTileContainer'>
-      
       <div class = 'gridRow1'>
           <img id = 'detailsTileImage' :src='house.image' alt="">
       </div>
@@ -13,10 +15,11 @@
             
         </div>
         <EditDeleteIcons :id = 'id' :isMobile = 'isMobile'/>
-        
-      </div>
+    </div>
+
+      <!-- House properties -->
+
       <div class = 'gridRow3'>
-            
             <div class = 'iconsRow'>
                 <div class = 'iconAndInfoContainer'>
                     <img class = 'iconMedium' src = '../../assets/ic_location.png' alt = ''/>
@@ -25,7 +28,6 @@
                 </div>
             </div>
             
-
             <div class = 'iconsRow'>
                 <div class = 'iconAndInfoContainer'>
                     <img class = 'iconMedium' src = '../../assets/ic_price.png' alt = ''/>
@@ -56,13 +58,13 @@
                 </div>
             </div>
       </div>
+
+      <!-- Description container -->
+
       <div class = 'gridRow4'>
           <p class = 'description textSecondary'>{{house.description}}</p>
       </div>
-  
   </div>
-
-  
 </template>
 
 <script>
@@ -87,8 +89,6 @@ export default {
         FavoriteToggle
     },
 
-    
-
     computed: {
         price(){
             return this.$store.getters.getFormattedPrice(this.house.price)
@@ -99,10 +99,10 @@ export default {
         this.id = this.$route.params.id
         this.house = this.$store.getters.getHouseById(this.id)
     },
-  
-    
 }
+
 </script>
+
 
 <style scoped>
 
@@ -153,7 +153,6 @@ p{
     height: 100%;
 }
 
-
 .description{
     padding: 1rem 0 2rem 0;
     font-family: 'Open Sans', 'sans-serif';
@@ -162,7 +161,6 @@ p{
     word-spacing: 0.15rem;
     line-height: 1.5rem;
 }
-
 
 .iconsRow{
     display: grid;
@@ -178,18 +176,15 @@ p{
     align-items: center;
 }
 
-
 .margingRight04{
     margin-right: 0.4rem;
 }
-
 
 @media only screen and (max-width: 768px) {
     .detailsTileContainer{
         width: 100%
     }
 }
-
 
 @media only screen and (max-width: 480px) {
     .detailsTileContainer{
