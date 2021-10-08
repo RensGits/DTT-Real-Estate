@@ -6,7 +6,7 @@
       <!-- desktop navigation bar -->
 
       <div id = 'navItems'>
-        <img id = 'mainLogo' src = '../../assets/DTT_logo_black.svg' alt = ''/>
+        <img id = 'mainLogo' src = '../../assets/DTT_logo_black.svg' alt = '' @click="$router.push('/')"/>
         <div id = 'pagesLink'>
           <router-link id = 'housesRouterLink' to ='/'>Houses</router-link>
           <router-link id = 'aboutRouterLink' to ='/about'>About</router-link>
@@ -114,6 +114,10 @@ export default {
 
 #pagesLinkMobile{
   display: none;
+}
+
+#mainLogo{
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 990px) {

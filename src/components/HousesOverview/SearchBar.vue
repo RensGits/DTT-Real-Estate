@@ -74,7 +74,8 @@ export default {
 #searchBarIconClear{
     position: absolute;
     height: 1rem;
-    right: 60%
+    right: 60%;
+    cursor: pointer;
 }
 
 #resultsCounter{
