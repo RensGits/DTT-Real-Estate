@@ -63,7 +63,7 @@ User story 9: As the owner of a listing, I want to be able to delete my listing(
 
     Custom scrollbar (scroll progress indicator).
 
-    This About page.
+    About page.
 
 ## And...
 
