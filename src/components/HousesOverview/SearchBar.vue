@@ -5,7 +5,7 @@
         <!-- SearchBar, seach & clear icon -->
         <img id = 'searchBarIconSearch' src="../../assets/ic_search@2x.png" alt="">
         <img id = 'searchBarIconClear' src= "../../assets/ic_clear@2x.png" alt="" @click="handleSearchClear">
-        <input id = 'searchBar' type = 'text' placeholder="Search for a house" @keyup="handleSearchInput" ref = 'searchBar'/>
+        <input id = 'searchBar' type = 'text' placeholder="Search for a house" @keyup="handleSearchInput" ref = 'searchBar' :value = 'getCurrentSearchInput'/>
 
         <!-- Counter shown after a result input -->
         <h2 v-if = "getFilteredHouses.length > 0 && getCurrentSearchInput != ''" id = 'resultsCounter'>{{getFilteredHouses.length}} results found</h2> 

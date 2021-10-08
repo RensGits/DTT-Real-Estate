@@ -149,12 +149,13 @@
                     didn't seem to reproduce the design shown in the workflow (probably my mistake). </li>
             </ul>
         </section>
+        <div id = 'aboutButtonContainer'><a href="https://github.com/RensGits/DTT-Real-Estate" target="_blank" ><button >To repository</button></a></div>
         
-        <a href="https://github.com/RensGits/DTT-Real-Estate" target="_blank" ><button >To repository</button></a>
        
         
       </div>
       <div class = 'spacer'></div>
+      <div class = 'spacerExtra'></div>
   </div>
 </template>
 
@@ -187,10 +188,6 @@ export default {
     beforeDestroyed(){
         this.$refs.userStories.removeEventListener('scroll', this.handleScroll);    // Removes scroll event listener
     }
-
-  
-    
-
 }
 
 </script>
@@ -237,6 +234,8 @@ a{
     height: 5rem;
 }
 
+
+
 @media only screen and (max-width: 990px) {
     #customScrollIndicator{
         right: 12%;
@@ -247,6 +246,11 @@ a{
 @media only screen and (max-width: 768px) {
     #customScrollIndicator{
         right: 2%;
+    }
+    #aboutButtonContainer{
+        display: flex;
+        justify-content: center;
+        width: 100%;
     }
 }
 

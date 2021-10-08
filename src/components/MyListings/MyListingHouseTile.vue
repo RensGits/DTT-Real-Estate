@@ -2,20 +2,18 @@
 
 <template>
   <div id = 'myListingHouseTileContainer'>
-     <FavoriteToggle class = 'favoriteContainerMyListingTile' :id = id />
+    <FavoriteToggle class = 'favoriteContainerMyListingTile' :id = id />
      
-     <div id = 'tileFrontSide'>
-        
-      <h2>{{street}}</h2>
-      <img :src='image' alt="">
-      <p>€{{price}},-</p>
-      <h4 class = 'p3'> {{size}}m2</h4>
-      </div>
-       <div id = 'tileBackside'>
-            <button  @click ="$router.push('/details/' + id)">GO TO LISTING</button>
-            
-     </div>
-     <div id='overlay'></div>
+    <div id = 'tileFrontSide'>
+        <h2>{{street}}</h2>
+        <img :src='image' alt="">
+        <p>€{{price}},-</p>
+        <h4 class = 'p3'> {{size}}m2</h4>
+    </div>
+    <div id = 'tileBackside'>
+        <button  @click ="$router.push('/details/' + id)">GO TO LISTING</button>
+    </div>
+    <div id='overlay'></div>
     
   </div>
 </template>

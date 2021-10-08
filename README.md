@@ -2,9 +2,9 @@
 
 ***This web application was build in Vue.js as part of the Front-end development traineeship application at DTT. With this web application, I hope to demonstrate my knowledge of Vue.js.***
 
-**The assignment**
+## The assignment
 
-*The challenge goes as follows:* 
+### The challenge goes as follows: 
 
 Create a web application for house listings, which allows the user to view a list of houses that are currently available for sale, and create, edit and delete their own listings. The data of the current houses listed is retrieved from an API and new listings are posted to this API. All the specific requirements are listed below.
 
@@ -47,9 +47,9 @@ User story 9: As the owner of a listing, I want to be able to delete my listing(
     I want to see a warning before the successful deletion of my listing.
 
 
-**Extras**
+## Extras
 
-*Here follows a list of things that I added on top of the minimal requirements:*
+### Here follows a list of things that I added on top of the minimal requirements:
 
     The ability to add listings as favorite. This can be done from the overview page and can then be viewed (and removed) on the My listings page.
 
@@ -65,16 +65,16 @@ User story 9: As the owner of a listing, I want to be able to delete my listing(
 
     This About page.
 
-**And...**
+## And...
 
-*Some other design choices worth mentioning:*
+### Some other design choices worth mentioning:
 
-The searchbar automatically retrieves all results on deleting the current search input, not only by pressing the clear icon, but any other way possible.
+    The searchbar automatically retrieves all results on deleting the current search input, not only by pressing the clear icon, but any other way possible.
 
-The create new listing form (or when editing an existing one) checks, on top if a required field is filled in, if a numeric value is entered where one is needed.
+    The create new listing form (or when editing an existing one) checks, on top if a required field is filled in, if a numeric value is entered where one is needed.
 
-On screen width sizes smaller then 330px, the overview tiles on the overview page show just the adress, price and size to keep things clear at those small sizes.
+    On screen width sizes smaller then 330px, the overview tiles on the overview page show just the adress, price and size to keep things clear at those small sizes.
 
-At the price and size inputfield of the listing form, I chose to let the user fill in just numbers, and show a euro symbol or m2 unit in the list itself. I think this provides a more clear expectation of the user and less filtering down the line.
+    At the price and size inputfield of the listing form, I chose to let the user fill in just numbers, and show a euro symbol or m2 unit in the list itself. I think this provides a more clear expectation of the user and less filtering down the line.
 
-I chose to not use the px measurements from the stylesheet but rather eyeballed it and used rems to size most of the text and elements, as the given font measurements didn't seem to reproduce the design shown in the workflow (probably my mistake).
+    I chose to not use the px measurements from the stylesheet but rather eyeballed it and used rems to size most of the text and elements, as the given font measurements didn't seem to reproduce the design shown in the workflow (probably my mistake).

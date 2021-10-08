@@ -54,7 +54,8 @@
                 </div>
                 <div class = 'iconAndInfoContainer'>
                     <img class = 'iconMedium' src = '../../assets/ic_garage.png' alt = ''/>
-                    <p>{{house.hasGarage}}</p>
+                    <p v-if="house.hasGarage">yes</p>
+                    <p v-else>no</p>
                 </div>
             </div>
       </div>

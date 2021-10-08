@@ -115,7 +115,7 @@
      
             </label>
             <input type="file" id="uploadPicture" @change = 'handleFileUpload' accept="image/*"/>
-            <span class = 'fieldError' v-if="formErrorFile && !listingData.hasFile" >
+            <span class = 'fieldError' v-if="formErrorFile && !populated" >
                 Please upload an Image
             </span>
         </div>
@@ -132,7 +132,7 @@
                 v-model = 'listingData.price' 
                 @input ="v$.listingData.price.$touch" 
                 placeholder="   e.g. 150.000 ">
-            <p class = 'inputAddition euro'>€</p>
+            <p id = 'euro' class = 'inputAddition'>€</p>
             <span class = 'fieldError' v-if="v$.listingData.price.required.$invalid && v$.listingData.price.$dirty">
                 This is a required field.
             </span>
@@ -235,6 +235,9 @@
             <span class = 'fieldError' v-if="v$.listingData.constructionYear.minValue.$invalid && v$.listingData.constructionYear.$dirty">
                 Sorry! We only list houses build after 1900!
             </span>
+            <span class = 'fieldError' v-if="v$.listingData.constructionYear.maxValue.$invalid && v$.listingData.constructionYear.$dirty">
+                Your house is build in the future, that can't be right. Or...
+            </span>
             
             
         </div>
@@ -267,12 +270,14 @@
             <!-- Successful form submition -->
             <div class = 'innerModal' v-if="formSubmitted">
                 <h2>Your listing has been succesfully posted!</h2>
-                <button @click="$router.push('/details/' + getRecentlyUploadedId)">See my listing</button>
+                <button @click="handleRedirect">See my listing</button>
             </div>
             <!-- Unsuccesful form submiton -->
             <div v-if="formError">
-                <h2>There seems to be a problem...</h2>
-                <p>Some fields are not filled in correctly, please go back and check the field requirements.</p>
+                <div class = 'innerModal'>
+                    <h2>There seems to be a problem...</h2>
+                    <p>Some fields are not filled in correctly, please go back and check the field requirements.</p>
+                </div>
             </div>  
         </div>
         <div class = 'modalOverlay' v-if = "modalVisible" @click="modalVisible = false , formError = false"></div>
@@ -286,7 +291,7 @@
 
 import{mapActions, mapGetters} from 'vuex'
 import useValidate from '@vuelidate/core'
-import { required, numeric, minValue } from '@vuelidate/validators'
+import { required, numeric, minValue, maxValue } from '@vuelidate/validators'
 
 export default {
 
@@ -339,7 +344,7 @@ export default {
                     numberAddition: {},
                     zip: {required},
                     city: {required},
-                    constructionYear: {required, numeric, minValue: minValue(1901)},
+                    constructionYear: {required, numeric, minValue: minValue(1901), maxValue: maxValue(2021)},
                     hasGarage: {required},
                     description: {required},
                     },
@@ -350,15 +355,16 @@ export default {
         ...mapGetters(['getRecentlyUploadedId', 'getHouseById']),
         handlePopulated(){                         // Sets populated in component data to true or false,
             this.populated = !this.populated       // true if image is selected, false if not
+            this.hasFile = !this.hasFile       
         }
     },
 
     methods: {
-        ...mapActions(['postHouse']),
+        ...mapActions(['postHouse','fetchHouses']),
         handleSubmit(){                            // Handles submit: checks if form contains errors
             this.v$.$validate()                    // if false commits to store --> API post, if true blocks submit
             this.modalVisible = true    // Triggers modal pop-up   
-            if(!this.v$.$error && this.listingData.hasFile){
+            if(!this.v$.$error && this.populated){
                 this.postHouse(this.listingData)
                 this.formSubmitted = true           // Used by modal to show submition was succesfull
             }
@@ -368,8 +374,9 @@ export default {
                 this.formErrorFile = true 
             }
         },
+        
         handleFileUpload(e){
-            this.listingData.hasFile = true
+            this.populated = true
             this.listingData.file = e.target.files[0]
             
             if (e.target.files && e.target.files[0]) {       // converts a recently selected file to a readable URL to display the preview in the upload container
@@ -380,14 +387,12 @@ export default {
                 reader.readAsDataURL(e.target.files[0])
                 this.populated = true
             }
-
-
-
-
-
-
-
         },
+        
+        handleRedirect(){
+            this.fetchHouses();
+            this.$router.push('/details/' + this.getRecentlyUploadedId)
+        }
     },
 
     mounted(){
@@ -574,8 +579,8 @@ export default {
         font-size: 0.8rem;
     }
 
-    .euro{
-        margin-left: 0.5rem;
+    #euro{
+        margin-left: 0.4rem;
     }
 
     .m2{
@@ -596,6 +601,9 @@ export default {
       #listingFormBackground{
           opacity: 0.5;
       }
+      #euro{
+          margin-top: 2.75rem;
+      }
     }
 
     @media only screen and (max-width: 480px){
@@ -608,9 +616,9 @@ export default {
             left: 30%;
             right:0;
             bottom:0;
-            
         }
     }
+
     @media only screen and (max-width: 330px) {
         #listingFormBackground{
             top: 50%;
@@ -630,7 +638,6 @@ export default {
             grid-template-columns: 1fr 1fr;
             grid-template-rows: unset;
             gap: 2rem;
-       
         }
     }
     

@@ -154,7 +154,7 @@ export default createStore({
         var FormData = require('form-data');
         var data = new FormData();
 
-        data.append('price', JSON.stringify(payload.price).replace('.',''));
+        data.append('price', (payload.price).replace('.',''));
         data.append('bedrooms', payload.bedrooms);
         data.append('bathrooms', payload.bathrooms);
         data.append('size',payload.size);

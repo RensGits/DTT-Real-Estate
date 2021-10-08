@@ -34,7 +34,7 @@
 import {mapActions} from 'vuex'
 
 export default {
-    props: ['id', 'isMobile'],
+    props: ['id', 'isMobile', 'fetchHouses'],
 
     data(){
         return{
@@ -54,6 +54,8 @@ export default {
         handleDelete(){                         // Makes POST request to delete house from API & hides modal
             this.deleteHouseAPI(this.id)        
             this.showModal = false
+            this.$router.push({name: 'housesOverviewPage'})
+            this.fetchHouses
         }  
     },
 

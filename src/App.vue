@@ -1,6 +1,5 @@
 ---------- Main App Component ----------
 
-
 <template>
   <div id = 'app' ref = 'app' @scroll = 'handleScroll' >
     <Nav/>
@@ -48,21 +47,12 @@ export default {
     beforeDestroyed(){
         window.removeEventListener('scroll', this.handleScroll); 
     }
-
-
-
-
-
-
-
-
-
 }
+
 </script>
 
 
 <style>
-
                                                                                                                     /* GLOBAL STYLES */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;0,600;0,700;1,500&display=swap'); 
@@ -84,6 +74,25 @@ html,body{
 
 body{
   height: 100vh;
+}
+
+#app{
+  min-height: 100vh !important;
+  width: 100%;
+  background-color: rgb(246,246,246);
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+#routerView{
+  width: 100%;
+  min-height: 80vh;
+  height: auto;
+  padding: 0 20%;
+  margin-top: 2rem;
+  padding-bottom: 3rem;
 }
 
 p{
@@ -252,25 +261,6 @@ button:hover{
   color:rgb(225, 225, 225)
 }
 
-#app{
-  min-height: 100vh !important;
-  width: 100%;
-  background-color: rgb(246,246,246);
-}
-
-body::-webkit-scrollbar {
-    display: none;
-}
-
-#routerView{
-  width: 100%;
-  min-height: 80vh;
-  height: auto;
-  padding: 0 20%;
-  margin-top: 2rem;
-  padding-bottom: 3rem;
-}
-
 .modal{
   position: fixed;
   top: 50%;
@@ -284,6 +274,7 @@ body::-webkit-scrollbar {
   border-radius: 8px;
   color: black;
   align-items: center;
+  text-align: center;
 }
 
 .innerModal{
@@ -324,6 +315,7 @@ body::-webkit-scrollbar {
   height: 5rem;
 }
 
+
 @media only screen and (max-width: 990px){
   #routerView{
     padding: 0 10%
@@ -339,7 +331,6 @@ body::-webkit-scrollbar {
     display:none;
   }
 
-
   #routerView{
     margin-top: 0;
     padding: 0;
@@ -349,8 +340,14 @@ body::-webkit-scrollbar {
     justify-content: center;
     margin-top: 0;
   }
+
   #customScrollIndicatorApp{
     display: none;
+  }
+
+  .spacerExtra{
+    width: 100%;
+    height: 5rem;
   }
 }
 
@@ -358,6 +355,11 @@ body::-webkit-scrollbar {
   #routerView{
     width: 100%;
   }
+  .modal{
+    width: 80%;
+    padding: 10% 10%
+  }
+
 }
 
 
