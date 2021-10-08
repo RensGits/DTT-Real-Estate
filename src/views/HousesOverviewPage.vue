@@ -122,7 +122,7 @@ export default {
   },
   
   created(){                    
-    this.fetchHouses();    
+    this.fetchHouses();
   },
 }
 

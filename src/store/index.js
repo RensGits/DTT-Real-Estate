@@ -153,8 +153,13 @@ export default createStore({
                                                         // and uploads or edits picture added in listing form.
         var FormData = require('form-data');
         var data = new FormData();
+        let price = ''
+        if(JSON.stringify(payload.price).includes('.')){
+          price = (payload.price).replace('.','')
+        }
+        else price = payload.price
 
-        data.append('price', (payload.price).replace('.',''));
+        data.append('price', price);
         data.append('bedrooms', payload.bedrooms);
         data.append('bathrooms', payload.bathrooms);
         data.append('size',payload.size);
