@@ -271,8 +271,11 @@
 
             <!-- Successful form submition -->
             <div class = 'innerModal' v-if="formSubmitted">
-                <h2>Your listing has been succesfully posted!</h2>
-                <button @click="handleRedirect">See my listing</button>
+                
+                <h2 v-if='loading'>Loading...</h2>
+                <h2 v-if='!loading' >Your listing has been succesfully posted!</h2>
+                <button v-if='!loading' @click="this.$router.push('/details/' + this.getRecentlyUploadedId)">See my listing</button>
+                
             </div>
             <!-- Unsuccesful form submiton -->
             <div v-if="formError">
@@ -330,6 +333,7 @@ export default {
             formSubmitted: false,
             modalVisible: false,
             noPromission: false,
+            loading: true
         }
     },
 
@@ -363,13 +367,14 @@ export default {
     },
 
     methods: {
-        ...mapActions(['postHouse','fetchHouses']),
+        ...mapActions(['postHouse','fetchHouses','recentlyUploadedImage']),
         handleSubmit(){                            // Handles submit: checks if form contains errors
             this.v$.$validate()                    // if false commits to store --> API post, if true blocks submit
             this.modalVisible = true    // Triggers modal pop-up   
             if(!this.v$.$error && this.populated){
                 this.postHouse(this.listingData)
-                this.formSubmitted = true           // Used by modal to show submition was succesfull
+                this.formSubmitted = true
+                this.handleRedirect();         // Used by modal to show submition was succesfull
             }
             else {
                 console.log('form declined')
@@ -388,13 +393,14 @@ export default {
                     this.uploadImagePopulatedUrl = e.target.result;
                 }
                 reader.readAsDataURL(e.target.files[0])
-                this.populated = true
+                this.populated = true 
             }
         },
         
         handleRedirect(){
-            this.fetchHouses();
-            this.$router.push('/details/' + this.getRecentlyUploadedId)
+            var that = this
+            setTimeout(function(){that.fetchHouses()
+            that.loading = false}, 3000)
         }
     },
 

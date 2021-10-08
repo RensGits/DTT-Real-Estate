@@ -195,11 +195,8 @@ export default createStore({
           console.log(error);
         })
         .then(async function(){
-          console.log(image)
           var dataPicture = new FormData();
           dataPicture.append('image', image);
-
-          console.log(payload.id)
 
           var configPicture = {
             method: 'post',
@@ -222,9 +219,8 @@ export default createStore({
             console.log(error);
               });
             })
-          .then(function(){                                    // Sets the recently uploaded id for redirection to house details page,
-            dispatch('fetchHouses')                            // after new posting or editing an existing one
-            if(payload.id === undefined){
+          .then(function(){                                     // Sets the recently uploaded id for redirection to house details page,                         
+            if(payload.id === undefined){                       // after new posting or editing an existing one
               commit('setRecentlyUploadedId', idFromResponse)
             }
             else{
