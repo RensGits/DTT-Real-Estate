@@ -1,8 +1,10 @@
 ---------- Form for creating a new listing & editing an existing one ----------
 
 <template>
-
-    <div id = 'listingFormContainer'>
+    <div id = 'noPromission' v-if = noPromission>
+        <h2>You don't have promission to edit this house.</h2>
+    </div>
+    <div v-if = !noPromission id = 'listingFormContainer'>
 
     <!-- Listing page header -->
 
@@ -327,6 +329,7 @@ export default {
             formEroorFile: false,
             formSubmitted: false,
             modalVisible: false,
+            noPromission: false,
         }
     },
 
@@ -374,7 +377,7 @@ export default {
                 this.formErrorFile = true 
             }
         },
-        
+
         handleFileUpload(e){
             this.populated = true
             this.listingData.file = e.target.files[0]
@@ -396,7 +399,7 @@ export default {
     },
 
     mounted(){
-       
+        if(this.listingData.id > 11){
         if(this.listingData.id != undefined){       // Populates component data with listing data if available (if originating from edit link)
             this.populated = true
             this.listingData.hasFile = true
@@ -415,7 +418,10 @@ export default {
             this.listingData.description = data.description
             this.listingData.file = data.file
             this.uploadImagePopulatedUrl = data.image
-        } 
+        }
+    } else{
+      this.noPromission = true  
+    }  
   }
 }
 </script>
@@ -585,6 +591,12 @@ export default {
 
     .m2{
         margin-left: 10rem;
+    }
+
+    #noPromission{
+        position: absolute;
+        z-index: 10000;
+        padding: 3rem 0;
     }
 
     @media only screen and (max-width: 990px){
