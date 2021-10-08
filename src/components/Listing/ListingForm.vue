@@ -1,10 +1,10 @@
 ---------- Form for creating a new listing & editing an existing one ----------
 
 <template>
-    <div id = 'noPromission' v-if = noPromission>
+    <div id = 'noPromission' v-if='noPromission' >
         <h2>You don't have promission to edit this house.</h2>
     </div>
-    <div v-if = !noPromission id = 'listingFormContainer'>
+    <div v-else id = 'listingFormContainer'>
 
     <!-- Listing page header -->
 
@@ -399,7 +399,9 @@ export default {
     },
 
     mounted(){
-        if(this.listingData.id > 11){
+        if(this.listingData.id != undefined && this.listingData.id < 12){
+            this.noPromission = true
+        }
         if(this.listingData.id != undefined){       // Populates component data with listing data if available (if originating from edit link)
             this.populated = true
             this.listingData.hasFile = true
@@ -419,9 +421,6 @@ export default {
             this.listingData.file = data.file
             this.uploadImagePopulatedUrl = data.image
         }
-    } else{
-      this.noPromission = true  
-    }  
   }
 }
 </script>
